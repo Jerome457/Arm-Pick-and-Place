@@ -1,0 +1,4 @@
+[31mCMake Error at CMakeLists.txt:50 (install):
+  install TARGETS given target "cylinder_segment" which does not exist.
+
+[0m

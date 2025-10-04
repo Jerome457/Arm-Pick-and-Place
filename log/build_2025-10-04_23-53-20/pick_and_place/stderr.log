@@ -1,0 +1,12 @@
+[01m[K/home/jerome/arm_base/src/pick_and_place/src/mtc.cpp:[m[K In member function ‘[01m[Kvoid MTCTaskNode::setupPlanningScene()[m[K’:
+[01m[K/home/jerome/arm_base/src/pick_and_place/src/mtc.cpp:71:1:[m[K [01;31m[Kerror: [m[K‘[01m[Kobject_pose[m[K’ was not declared in this scope
+   71 | [01;31m[Kobject_pose[m[K.position.x = 0.7;
+      | [01;31m[K^~~~~~~~~~~[m[K
+[01m[K/home/jerome/arm_base/src/pick_and_place/src/mtc.cpp:112:1:[m[K [01;31m[Kerror: [m[K‘[01m[Kcene_msg[m[K’ was not declared in this scope; did you mean ‘[01m[Kscene_msg[m[K’?
+  112 | [01;31m[Kcene_msg[m[K.world.collision_objects.push_back(object);
+      | [01;31m[K^~~~~~~~[m[K
+      | [32m[Kscene_msg[m[K
+gmake[2]: *** [CMakeFiles/mtc_tutorial.dir/build.make:76: CMakeFiles/mtc_tutorial.dir/src/mtc.cpp.o] Error 1
+gmake[1]: *** [CMakeFiles/Makefile2:165: CMakeFiles/mtc_tutorial.dir/all] Error 2
+gmake[1]: *** Waiting for unfinished jobs....
+gmake: *** [Makefile:146: all] Error 2
