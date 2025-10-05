@@ -894,6 +894,17 @@
             </geometry>
         </collision>
     </link>
+
+
+    <link name="grasp_frame">
+    </link>
+
+    <joint name="grasp_to_hand" type= "fixed">
+    <origin xyz="-0.015 -0.06 -0.17" rpy="0.0 0.0 -0.35" />
+    <parent link="gcomp1" />
+    <child link="grasp_frame" />
+    </joint>
+
     <joint name="base_to_robot" type="fixed">
     <origin xyz="0.0 0.35 -0.07" rpy="1.57 0.0 0.0" />
     <parent link="base_footprint" />
@@ -949,6 +960,7 @@
         <parent link="gcomp1" />
         <child link="Spur_Gear_driven" />
         <axis xyz="-0.9470809999999998 -0.024682999999999993 -0.320045" />
+          <limit lower="-1000" upper="1000" effort="10" velocity="10"/>
     </joint>
     <joint name="Spur_Gear_driven_Rigid_64" type="fixed">
         <origin xyz="-0.013631960000000004 -0.02297454999999985 0.007741520000000009" rpy="2.0816681711721685e-17 2.949029909160572e-17 -2.0816681711721685e-17" />
@@ -1049,6 +1061,7 @@
         <parent link="AX_12A_04_4" />
         <child link="Spur_Gear_motor" />
         <axis xyz="-0.947081 0.32004499999999997 -0.024683000000000014" />
+        <limit lower="-1000" upper="1000" effort="10" velocity="10"/>
     </joint>
     <joint name="Base_link_Rigid_91" type="fixed">
         <origin xyz="0.0 0.014000000000000021 0.0" rpy="-1.5707963267948966 -2.256926366529482e-28 -7.121603906070465e-58" />

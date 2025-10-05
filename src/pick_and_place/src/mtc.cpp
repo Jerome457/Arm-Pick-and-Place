@@ -57,21 +57,21 @@ object.id = "object";
 object.header.frame_id = "world";
 object.primitives.resize(1);
 object.primitives[0].type = shape_msgs::msg::SolidPrimitive::CYLINDER;
-object.primitives[0].dimensions = {0.1, 0.02};  // height, radius
+object.primitives[0].dimensions = {0.05, 0.01};  // height, radius
 
 geometry_msgs::msg::Pose object_pose;
 // object_pose.position.x = 0.3;
 // object_pose.position.y = 0.0;
 // object_pose.position.z = 0.01;  // Make sure it's above ground
-// object_pose.orientation.x = 0.7071;
-// object_pose.orientation.y = 0.0;
-// object_pose.orientation.z = 0.0;
-// object_pose.orientation.w = 0.7071;
+object_pose.orientation.x = 0.7071;
+object_pose.orientation.y = 0.0;
+object_pose.orientation.z = 0.0;
+object_pose.orientation.w = 0.7071;
 
-object_pose.position.x = 0.7;
-object_pose.position.y = 0.0;
-object_pose.position.z = 0.05;  // Make sure it's above ground
-object_pose.orientation.w = 1.0;
+object_pose.position.x = 0.0;
+object_pose.position.y = -0.6;
+object_pose.position.z = 0.01;  // Make sure it's above ground
+// object_pose.orientation.w = 1.0;
 object.primitive_poses.push_back(object_pose);
 object.operation = object.ADD;
 
@@ -85,7 +85,7 @@ ground_shape.type = shape_msgs::msg::SolidPrimitive::BOX;
 ground_shape.dimensions = {4.0, 4.0, 0.01};  // large thin box
 
 geometry_msgs::msg::Pose ground_pose;
-ground_pose.position.z = -0.0225;  // top of ground at z=0
+ground_pose.position.z = -0.1;  // top of ground at z=0
 ground_pose.orientation.w = 1.0;
 
 ground.primitives.push_back(ground_shape);
@@ -165,7 +165,7 @@ mtc::Task MTCTaskNode::createTask()
 
   const auto& arm_group_name = "arm";
   const auto& hand_group_name = "hand";
-  const auto& hand_frame = "gcomp1";
+  const auto& hand_frame = "grasp_frame";
 
   // Set task properties
   task.setProperty("group", arm_group_name);
@@ -184,7 +184,7 @@ mtc::Task MTCTaskNode::createTask()
   task.add(std::move(stage_state_current));
 
   auto sampling_planner = std::make_shared<mtc::solvers::PipelinePlanner>(node_, "ompl");
-  sampling_planner->setPlannerId("BFMTkConfigDefault");
+  sampling_planner->setPlannerId("RRTConnectkConfigDefault");
 
   auto interpolation_planner = std::make_shared<mtc::solvers::JointInterpolationPlanner>();
 
@@ -240,8 +240,8 @@ mtc::Stage* attach_object_stage =
       
         // Set hand forward direction
         geometry_msgs::msg::Vector3Stamped vec;
-        vec.header.frame_id = hand_frame;
-        vec.vector.x = -0.05;
+        vec.header.frame_id = "world";
+        vec.vector.z = -0.05;
         stage->setDirection(vec);
         grasp->insert(std::move(stage));
       }
@@ -257,11 +257,11 @@ mtc::Stage* attach_object_stage =
         stage->setMonitoredStage(current_state_ptr);  // Hook into current state
 
         Eigen::Isometry3d grasp_frame_transform;
-        Eigen::Quaterniond q = Eigen::AngleAxisd(-M_PI / 2, Eigen::Vector3d::UnitX()) *
-                            Eigen::AngleAxisd(M_PI/7, Eigen::Vector3d::UnitY()) *
-                            Eigen::AngleAxisd(-M_PI / 2, Eigen::Vector3d::UnitZ());
+        Eigen::Quaterniond q = Eigen::AngleAxisd(0.0, Eigen::Vector3d::UnitX()) *
+                            Eigen::AngleAxisd(-M_PI/2, Eigen::Vector3d::UnitY()) *
+                            Eigen::AngleAxisd(0.0, Eigen::Vector3d::UnitZ());
         grasp_frame_transform.linear() = q.matrix();
-        grasp_frame_transform.translation() = Eigen::Vector3d(-0.06, 0.0, 0.0);
+        grasp_frame_transform.translation() = Eigen::Vector3d(0.0, -0.02, 0.03);
         // Compute IK
         auto wrapper =
             std::make_unique<mtc::stages::ComputeIK>("grasp pose IK", std::move(stage));
@@ -277,7 +277,10 @@ mtc::Stage* attach_object_stage =
         auto stage =
             std::make_unique<mtc::stages::ModifyPlanningScene>("allow collision (soft_fingers,object)");
         stage->allowCollisions("object", "Soft_finger_1", true);
-        stage->allowCollisions("object", "Soft_finger_2", true);
+        stage->allowCollisions("object", "soft_finger_2", true);
+        stage->allowCollisions("object", "firstDOF_final", true);
+        stage->allowCollisions("firstDOF_final", "Soft_finger_1", true);
+        stage->allowCollisions("firstDOF_final", "soft_finger_2", true);
         stage->allowCollisions("object", "<octomap>", true);
         grasp->insert(std::move(stage));
       }
@@ -320,7 +323,7 @@ mtc::Stage* attach_object_stage =
       auto stage_move_to_place = std::make_unique<mtc::stages::Connect>(
           "move to place",
           mtc::stages::Connect::GroupPlannerVector{ { arm_group_name, sampling_planner },
-                                                    { hand_group_name, sampling_planner } });
+                                                    { hand_group_name, interpolation_planner } });
       stage_move_to_place->setTimeout(5.0);
       stage_move_to_place->properties().configureInitFrom(mtc::Stage::PARENT);
       task.add(std::move(stage_move_to_place));
@@ -340,20 +343,20 @@ mtc::Stage* attach_object_stage =
       
         geometry_msgs::msg::PoseStamped target_pose_msg;
         target_pose_msg.header.frame_id = "base_footprint";
-        target_pose_msg.pose.position.y = 0.0;
-        target_pose_msg.pose.position.x = -0.3;
-        target_pose_msg.pose.position.z=0.02;
-        // target_pose_msg.pose.orientation.x = -0.7071;
-        // target_pose_msg.pose.orientation.y = 0.0;
-        // target_pose_msg.pose.orientation.z = 0.0;
-        // target_pose_msg.pose.orientation.w = -0.7071;
+        target_pose_msg.pose.position.y = 0.2;
+        target_pose_msg.pose.position.x = 0.0;
+        target_pose_msg.pose.position.z=0.22;
+        target_pose_msg.pose.orientation.x = 0.7071;
+        target_pose_msg.pose.orientation.y = 0.0;
+        target_pose_msg.pose.orientation.z = 0.0;
+        target_pose_msg.pose.orientation.w = 0.7071;
 
         // target_pose_msg.pose.position.y = 0.0;
         // target_pose_msg.pose.position.x = -0.4;
         // target_pose_msg.pose.position.z=0.05;
         // target_pose_msg.pose.orientation.w = 1.0;
 
-// Get the collision object from the planning scene
+        // Get the collision object from the planning scene
         auto obj_map = moveit::planning_interface::PlanningSceneInterface().getObjects({"object"});
         auto object_pose = obj_map["object"].pose;  // geometry_msgs::msg::Pose
 
@@ -365,7 +368,7 @@ mtc::Stage* attach_object_stage =
         // Use the object’s current orientation for placing
         target_pose_msg.pose.orientation = object_pose.orientation;
         stage->setPose(target_pose_msg);
-        stage->setMonitoredStage(attach_object_stage);  // Hook into attach_object_stage
+        stage->setMonitoredStage(attach_object_stage);  // Hook into sattach_object_stage
       
         // Compute IK
         auto wrapper =
@@ -378,7 +381,7 @@ mtc::Stage* attach_object_stage =
         place->insert(std::move(wrapper));
       }
       {
-        auto stage = std::make_unique<mtc::stages::MoveTo>("open hand", sampling_planner);
+        auto stage = std::make_unique<mtc::stages::MoveTo>("open hand", interpolation_planner);
         stage->setGroup(hand_group_name);
         stage->setGoal("open");
         place->insert(std::move(stage));
@@ -387,7 +390,7 @@ mtc::Stage* attach_object_stage =
         auto stage =
             std::make_unique<mtc::stages::ModifyPlanningScene>("forbid collision (hand,object)");
         stage->allowCollisions("object", "Soft_finger_1", false);
-        stage->allowCollisions("object", "Soft_finger_2", false);
+        stage->allowCollisions("object", "soft_finger_2", false);
         place->insert(std::move(stage));
       }
 
@@ -406,8 +409,8 @@ mtc::Stage* attach_object_stage =
       
         // Set retreat direction
         geometry_msgs::msg::Vector3Stamped vec;
-        vec.header.frame_id = "link6";
-        vec.vector.x = 0.05;
+        vec.header.frame_id = "world";
+        vec.vector.z = 0.05;
         stage->setDirection(vec);
         place->insert(std::move(stage));
       }

@@ -7,19 +7,4 @@ moveit_setup_assistant_config:
   package_settings:
     author_name: jer
     author_email: jer@mail.com
-    generated_timestamp: 1759589977
-  control_xacro:
-    command:
-      - position
-    state:
-      - position
-      - velocity
-  modified_urdf:
-    xacros:
-      - control_xacro
-  control_xacro:
-    command:
-      - position
-    state:
-      - position
-      - velocity
+    generated_timestamp: 1759663067
