@@ -1062,6 +1062,7 @@
         <child link="Spur_Gear_motor" />
         <axis xyz="-0.947081 0.32004499999999997 -0.024683000000000014" />
         <limit lower="-1000" upper="1000" effort="10" velocity="10"/>
+        <mimic joint="gcomp1_Revolute_63" multiplier="-1.0" offset="0"/>
     </joint>
     <joint name="Base_link_Rigid_91" type="fixed">
         <origin xyz="0.0 0.014000000000000021 0.0" rpy="-1.5707963267948966 -2.256926366529482e-28 -7.121603906070465e-58" />

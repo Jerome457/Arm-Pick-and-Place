@@ -57,13 +57,13 @@
                 </state_interface>
                 <state_interface name="velocity"/>
             </joint>
-            <joint name="AX_12A_04_4_Revolute_90">
+            <!-- <joint name="AX_12A_04_4_Revolute_90">
                 <command_interface name="position"/>
                 <state_interface name="position">
                   <param name="initial_value">${initial_positions['AX_12A_04_4_Revolute_90']}</param>
                 </state_interface>
                 <state_interface name="velocity"/>
-            </joint>
+            </joint> -->
 
         </ros2_control>
     </xacro:macro>
