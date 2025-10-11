@@ -9,42 +9,42 @@ default_acceleration_scaling_factor: 0.1
 # Joint limits can be turned off with [has_velocity_limits, has_acceleration_limits]
 joint_limits:
   AX_12A_04_1_Revolute_80:
-    has_velocity_limits: false
-    max_velocity: 0
+    has_velocity_limits: true
+    max_velocity: 0.25
     has_acceleration_limits: false
     max_acceleration: 0
   AX_12A_04_2_Revolute_86:
-    has_velocity_limits: false
-    max_velocity: 0
+    has_velocity_limits: true
+    max_velocity: 0.25
     has_acceleration_limits: false
     max_acceleration: 0
   AX_12A_04_3_Revolute_75:
-    has_velocity_limits: false
-    max_velocity: 0
+    has_velocity_limits: true
+    max_velocity: 0.25
     has_acceleration_limits: false
     max_acceleration: 0
   AX_12A_04_4_Revolute_90:
-    has_velocity_limits: false
-    max_velocity: 0
+    has_velocity_limits: true
+    max_velocity: 0.25
     has_acceleration_limits: false
     max_acceleration: 0
   Nema_34_v3_Revolute_94:
-    has_velocity_limits: false
-    max_velocity: 0
+    has_velocity_limits: true
+    max_velocity: 0.25
     has_acceleration_limits: false
     max_acceleration: 0
   STEPPER_MOTOR_Revolute_74:
-    has_velocity_limits: false
-    max_velocity: 0
+    has_velocity_limits: true
+    max_velocity: 0.25
     has_acceleration_limits: false
     max_acceleration: 0
   firstDOF_final_Revolute_100:
-    has_velocity_limits: false
-    max_velocity: 0
+    has_velocity_limits: true
+    max_velocity: 0.25
     has_acceleration_limits: false
     max_acceleration: 0
   gcomp1_Revolute_63:
-    has_velocity_limits: false
-    max_velocity: 0
+    has_velocity_limits: true
+    max_velocity: 0.25
     has_acceleration_limits: false
     max_acceleration: 0

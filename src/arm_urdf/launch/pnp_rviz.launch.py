@@ -14,6 +14,7 @@ def generate_launch_description():
         .robot_description_semantic(file_path="config/ArmPlate.srdf")
         .trajectory_execution(file_path="config/moveit_controllers.yaml")
         .robot_description_kinematics(file_path="config/kinematics.yaml")
+        .planning_pipelines(default_planning_pipeline="ompl",pipelines=["ompl"])
         .planning_scene_monitor(publish_robot_description=True, publish_robot_description_semantic=True)
         .to_moveit_configs()
     )

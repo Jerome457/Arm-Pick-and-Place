@@ -137,7 +137,7 @@ void MTCTaskNode::doTask()
     return;
   }
 
-  if (!task_.plan(2))
+  if (!task_.plan(4))
   {
     RCLCPP_ERROR_STREAM(LOGGER, "Task planning failed");
     e=1;
@@ -176,7 +176,8 @@ mtc::Task MTCTaskNode::createTask()
 // Disable warnings for this line, as it's a variable that's set but not used in this example
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wunused-but-set-variable"
-  mtc::Stage* current_state_ptr = nullptr;  // Forward current_state on to grasp pose generator
+  mtc::Stage* current_state_ptr = nullptr;
+  mtc::Stage* attach_object_stage =nullptr;
 #pragma GCC diagnostic pop
 
   auto stage_state_current = std::make_unique<mtc::stages::CurrentState>("current");
@@ -184,7 +185,7 @@ mtc::Task MTCTaskNode::createTask()
   task.add(std::move(stage_state_current));
 
   auto sampling_planner = std::make_shared<mtc::solvers::PipelinePlanner>(node_, "ompl");
-  sampling_planner->setPlannerId("BFMTkConfigDefault");
+  sampling_planner->setPlannerId("TRRTkConfigDefault");
 
   auto interpolation_planner = std::make_shared<mtc::solvers::JointInterpolationPlanner>();
 
@@ -194,7 +195,7 @@ mtc::Task MTCTaskNode::createTask()
   cartesian_planner->setStepSize(.05);
 
 
-  //   auto pilz_ptp_planner = std::make_shared<mtc::solvers::PipelinePlanner>(node_, "pilz_industrial_motion_planner");
+  // auto pilz_ptp_planner = std::make_shared<mtc::solvers::PipelinePlanner>(node_, "pilz_industrial_motion_planner");
   // pilz_ptp_planner->setPlannerId("PTP");
   // pilz_ptp_planner->setProperty("max_velocity_scaling_factor", 0.5);
   // pilz_ptp_planner->setProperty("max_acceleration_scaling_factor", 0.5);
@@ -221,10 +222,6 @@ mtc::Task MTCTaskNode::createTask()
 stage_move_to_pick->setTimeout(100.0);
 stage_move_to_pick->properties().configureInitFrom(mtc::Stage::PARENT);
 task.add(std::move(stage_move_to_pick));
-
-mtc::Stage* attach_object_stage =
-    nullptr;  // Forward attach_object_stage to place pose generator
-
     {
       auto grasp = std::make_unique<mtc::SerialContainer>("pick object");
       task.properties().exposeTo(grasp->properties(), { "eef", "group", "ik_frame" });

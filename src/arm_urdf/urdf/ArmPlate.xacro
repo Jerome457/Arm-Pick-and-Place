@@ -977,17 +977,19 @@
         <parent link="Component6" />
         <child link="STEPPER_MOTOR" />
     </joint>
-    <joint name="STEPPER_MOTOR_Revolute_74" type="continuous">
+    <joint name="STEPPER_MOTOR_Revolute_74" type="revolute">
         <origin xyz="0.02167662 0.0 0.01609733" rpy="-1.5707963267948966 -1.859084879483064e-17 -2.795186720719627e-17" />
         <parent link="STEPPER_MOTOR" />
         <child link="link23" />
         <axis xyz="-0.802838 0.596197 -4.6143341949499234e-17" />
+        <limit lower="-1.74533" upper="1.74533" effort="1.0" velocity="0.25" />
     </joint>
-    <joint name="AX_12A_04_3_Revolute_75" type="continuous">
+    <joint name="AX_12A_04_3_Revolute_75" type="revolute">
         <origin xyz="0.0003050900000000034 -0.00041084000000000124 0.006379510000000011" rpy="3.141592653589793 -8.798523825835593e-34 1.6320449438997825e-16" />
         <parent link="AX_12A_04_3" />
         <child link="Component20" />
         <axis xyz="-0.047670999999999984 -0.06419400000000001 0.996798" />
+         <limit lower="-3.14159" upper="3.14159" effort="1.0" velocity="0.25" />
     </joint>
     <joint name="AX_12A_03_1_Rigid_76" type="fixed">
         <origin xyz="-0.014055520000000002 0.0034408100000000007 0.00607581999999999" rpy="1.7347234759768074e-17 -1.5707963267948966 0" />
@@ -1009,11 +1011,12 @@
         <parent link="Component20" />
         <child link="AX_12A_03_1" />
     </joint>
-    <joint name="AX_12A_04_1_Revolute_80" type="continuous">
+    <joint name="AX_12A_04_1_Revolute_80" type="revolute">
         <origin xyz="0.006061319999999988 0.0020482900000000017 -0.00015796999999992067" rpy="3.141592653589793 -8.868773770931429e-17 -3.0769740127124206e-34" />
         <parent link="AX_12A_04_1" />
         <child link="Component1_1" />
         <axis xyz="-0.947081 0.320045 -0.024682999999999983" />
+        <limit lower="-1.970796" upper="1.170796" effort="1.0" velocity="0.25" />
     </joint>
     <joint name="Component1_1_Rigid_81" type="fixed">
         <origin xyz="0.032666400000000005 -0.056701999999999995 -0.14929148999999994" rpy="1.040834085586084e-17 -1.0343288725511712e-16 -1.5612511283791267e-17" />
@@ -1040,11 +1043,12 @@
         <parent link="Component1_1" />
         <child link="AX_12A_03_2" />
     </joint>
-    <joint name="AX_12A_04_2_Revolute_86" type="continuous">
+    <joint name="AX_12A_04_2_Revolute_86" type="revolute">
         <origin xyz="-0.0007006800000000269 0.0025238100000000065 0.005839470000000091" rpy="-3.141592653589793 -1.0408340855860838e-17 -5.204170427930417e-18" />
         <parent link="AX_12A_04_2" />
         <child link="gcomp1" />
         <axis xyz="0.10948099999999998 0.39434500000000017 0.9124180000000002" />
+        <limit lower="-3.14159" upper="3.14159" effort="1.0" velocity="0.25" />
     </joint>
     <joint name="Base_link_Rigid_87" type="fixed">
         <origin xyz="0.0 0.014000000000000021 0.0" rpy="-1.5707963267948966 -2.256926366529482e-28 -7.121603906070465e-58" />
@@ -1079,11 +1083,12 @@
         <parent link="Nema_34_v3" />
         <child link="Universal_hub" />
     </joint>
-    <joint name="Nema_34_v3_Revolute_94" type="continuous">
+    <joint name="Nema_34_v3_Revolute_94" type="revolute">
         <origin xyz="-0.03500000000000004 -0.007828609999999998 -0.0481634" rpy="3.141592653589793 -1.5707963267948966 0" />
         <parent link="Nema_34_v3" />
         <child link="Component7" />
         <axis xyz="-0.802838 -0.596197 4.456646163201019e-17" />
+        <limit lower="-1.396263" upper="1.396263" effort="1.0" velocity="0.25" />
     </joint>
     <joint name="Component7_Rigid_95" type="fixed">
         <origin xyz="-0.03152172 0.047478950000000006 0.12200873000000005" rpy="-1.5707963267948966 1.5707963267948966 0" />
@@ -1095,11 +1100,12 @@
         <parent link="Component2" />
         <child link="Component6" />
     </joint>
-    <joint name="firstDOF_final_Revolute_100" type="continuous">
+    <joint name="firstDOF_final_Revolute_100" type="revolute">
         <origin xyz="-0.284 0.07999999999999999 -0.135" rpy="6.310887241768095e-30 -4.930380657631324e-32 -3.111507638930571e-61" />
         <parent link="firstDOF_final" />
         <child link="Base_link" />
         <axis xyz="0.0 -1.0 -3.1554436208840472e-30" />
+        <limit lower="-3.14159" upper="3.14159" effort="1.0" velocity="0.25" />
     </joint>
     <joint name="Wheel_motor_2_Revolute_105" type="continuous">
         <origin xyz="-1.7763568394002505e-17 0.0 0.026999999999999993" rpy="-1.5707963267948966 1.5707963267948948 0" />

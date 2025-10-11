@@ -43,27 +43,27 @@
         <joint name="gcomp1_Revolute_63" value="0"/>
     </group_state>
     <group_state name="place1" group="arm">
-        <joint name="AX_12A_04_1_Revolute_80" value="1.2323"/>
+        <joint name="AX_12A_04_1_Revolute_80" value="1.1186"/>
         <joint name="AX_12A_04_2_Revolute_86" value="-1.56"/>
         <joint name="AX_12A_04_3_Revolute_75" value="-0.2256"/>
-        <joint name="Nema_34_v3_Revolute_94" value="0.0521"/>
-        <joint name="STEPPER_MOTOR_Revolute_74" value="1.4059"/>
+        <joint name="Nema_34_v3_Revolute_94" value="-0.0849"/>
+        <joint name="STEPPER_MOTOR_Revolute_74" value="1.5332"/>
         <joint name="firstDOF_final_Revolute_100" value="0.8852"/>
     </group_state>
     <group_state name="place2" group="arm">
-        <joint name="AX_12A_04_1_Revolute_80" value="1.2323"/>
+        <joint name="AX_12A_04_1_Revolute_80" value="1.1186"/>
         <joint name="AX_12A_04_2_Revolute_86" value="-1.56"/>
         <joint name="AX_12A_04_3_Revolute_75" value="-0.2256"/>
-        <joint name="Nema_34_v3_Revolute_94" value="0.1909"/>
-        <joint name="STEPPER_MOTOR_Revolute_74" value="1.2323"/>
+        <joint name="Nema_34_v3_Revolute_94" value="0.0540"/>
+        <joint name="STEPPER_MOTOR_Revolute_74" value="1.3982"/>
         <joint name="firstDOF_final_Revolute_100" value="1.1976"/>
     </group_state>
     <group_state name="place3" group="arm">
-        <joint name="AX_12A_04_1_Revolute_80" value="1.2323"/>
+        <joint name="AX_12A_04_1_Revolute_80" value="1.1186"/>
         <joint name="AX_12A_04_2_Revolute_86" value="-1.56"/>
         <joint name="AX_12A_04_3_Revolute_75" value="-0.2256"/>
-        <joint name="Nema_34_v3_Revolute_94" value="-0.2603"/>
-        <joint name="STEPPER_MOTOR_Revolute_74" value="1.6836"/>
+        <joint name="Nema_34_v3_Revolute_94" value="0.1311"/>
+        <joint name="STEPPER_MOTOR_Revolute_74" value="1.3403"/>
         <joint name="firstDOF_final_Revolute_100" value="0.3645"/>
     </group_state>
     <!--END EFFECTOR: Purpose: Represent information about an end effector.-->
