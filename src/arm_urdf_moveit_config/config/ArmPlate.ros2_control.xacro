@@ -2,11 +2,16 @@
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro">
     <xacro:macro name="ArmPlate_ros2_control" params="name initial_positions_file">
         <xacro:property name="initial_positions" value="${load_yaml(initial_positions_file)['initial_positions']}"/>
-
-        <ros2_control name="${name}" type="system">
+      <gazebo>
+        <plugin name="gazebo_ros2_control" filename="libgazebo_ros2_control.so"> 
+            <parameters>$(find arm_urdf_moveit_config)/config/ros2_controllers.yaml</parameters>
+        </plugin>
+      </gazebo>
+      
+        <ros2_control name="GazeboSimSystem" type="system">
             <hardware>
                 <!-- By default, set up controllers for simulation. This won't work on real hardware -->
-                <plugin>mock_components/GenericSystem</plugin>
+                <plugin>gazebo_ros2_control/GazeboSystem</plugin>
             </hardware>
             <joint name="firstDOF_final_Revolute_100">
                 <command_interface name="position"/>
@@ -57,13 +62,13 @@
                 </state_interface>
                 <state_interface name="velocity"/>
             </joint>
-            <!-- <joint name="AX_12A_04_4_Revolute_90">
+            <joint name="AX_12A_04_4_Revolute_90">
                 <command_interface name="position"/>
                 <state_interface name="position">
                   <param name="initial_value">${initial_positions['AX_12A_04_4_Revolute_90']}</param>
                 </state_interface>
                 <state_interface name="velocity"/>
-            </joint> -->
+            </joint>
 
         </ros2_control>
     </xacro:macro>

@@ -1,11 +1,18 @@
 import os
 from launch import LaunchDescription
-from launch.actions import ExecuteProcess
+from launch.actions import ExecuteProcess, IncludeLaunchDescription
 from launch_ros.actions import Node
 from ament_index_python.packages import get_package_share_directory
 from moveit_configs_utils import MoveItConfigsBuilder
+from launch.launch_description_sources import PythonLaunchDescriptionSource
+import yaml
 
-
+def load_yaml(package_name: str, file_path: str):
+    package_path = get_package_share_directory(package_name)
+    absolute_path = os.path.join(package_path, file_path)
+    with open(absolute_path, 'r') as file:
+        return yaml.safe_load(file)
+    
 def generate_launch_description():
     # planning_context
     moveit_config = (
@@ -18,11 +25,29 @@ def generate_launch_description():
         .planning_scene_monitor(publish_robot_description=True, publish_robot_description_semantic=True)
         .to_moveit_configs()
     )
+    # Add sim time globally
+    sim_time = {"use_sim_time": True}
+
+    # octomap_updater_config = load_yaml('arm_urdf_moveit_config', 'config/sensors_3d.yaml')
+    # octomap_config = {'octomap_frame': 'world', 
+    #                   'octomap_resolution': 0.05,
+    #                   'max_range': 5.0}
 
     # Load  ExecuteTaskSolutionCapability so we can execute found solutions in simulation
     move_group_capabilities = {
         "capabilities": "move_group/ExecuteTaskSolutionCapability"
     }
+
+    gazebo_launch_file = os.path.join(
+    get_package_share_directory("gazebo_ros"),
+    "launch",
+    "gazebo.launch.py"
+    )
+    # Get the path to the Gazebo empty world file
+    empty_world_file = os.path.join(
+        get_package_share_directory('gazebo_ros'), 'worlds', 'empty.world'
+    )
+
 
     # Start the actual move_group node/action server
     run_move_group_node = Node(
@@ -32,6 +57,7 @@ def generate_launch_description():
         parameters=[
             moveit_config.to_dict(),
             move_group_capabilities,
+            sim_time,
         ],
     )
 
@@ -48,6 +74,7 @@ def generate_launch_description():
         parameters=[
             moveit_config.robot_description,
             moveit_config.robot_description_semantic,
+            sim_time,
         ],
     )
 
@@ -68,7 +95,27 @@ def generate_launch_description():
         output="both",
         parameters=[
             moveit_config.robot_description,
+            sim_time,
         ],
+    )
+    gazebo = IncludeLaunchDescription(
+    PythonLaunchDescriptionSource(gazebo_launch_file),
+    launch_arguments={
+        "use_sim_time": "true",
+        "debug": "false",
+        "gui": "true",
+        "paused": "true",
+        "world": empty_world_file,
+    }.items()
+    )
+    spawn_the_robot = Node(
+        package="gazebo_ros",
+        executable="spawn_entity.py",
+        arguments=[
+            "-entity", "arm_urdf",
+            "-topic", "/robot_description",
+        ],
+        output="screen"
     )
 
     # ros2_control using FakeSystem as hardware
@@ -80,7 +127,7 @@ def generate_launch_description():
     ros2_control_node = Node(
         package="controller_manager",
         executable="ros2_control_node",
-        parameters=[moveit_config.to_dict(), ros2_controllers_path],
+        parameters=[moveit_config.to_dict(), ros2_controllers_path,sim_time],
         output="both",
     )
 
@@ -106,6 +153,8 @@ def generate_launch_description():
             robot_state_publisher,
             run_move_group_node,
             ros2_control_node,
+            spawn_the_robot,
+            gazebo
         ]
         + load_controllers
     )
