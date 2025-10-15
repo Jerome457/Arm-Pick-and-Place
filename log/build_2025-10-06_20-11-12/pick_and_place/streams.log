@@ -1,0 +1,35 @@
+[0.009s] Invoking command in '/home/jerome/arm_base/build/pick_and_place': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/jerome/ws_moveit2/install/moveit_configs_utils:/home/jerome/ws_moveit2/install/launch_param_builder:/opt/ros/humble /usr/bin/cmake --build /home/jerome/arm_base/build/pick_and_place -- -j16 -l16
+[0.056s] [35m[1mConsolidate compiler generated dependencies of target mtc_tutorial[0m
+[0.080s] [ 50%] Built target pick_and_place
+[0.083s] [ 75%] [32mBuilding CXX object CMakeFiles/mtc_tutorial.dir/src/mtc.cpp.o[0m
+[3.490s] [01m[K/home/jerome/arm_base/src/pick_and_place/src/mtc.cpp:[m[K In member function ‘[01m[Kmoveit::task_constructor::Task MTCTaskNode::createTask()[m[K’:
+[3.490s] [01m[K/home/jerome/arm_base/src/pick_and_place/src/mtc.cpp:225:13:[m[K [01;35m[Kwarning: [m[Kvariable ‘[01m[Kattach_object_stage[m[K’ set but not used [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wunused-but-set-variable-Wunused-but-set-variable]8;;[m[K]
+[3.490s]   225 | mtc::Stage* [01;35m[Kattach_object_stage[m[K =
+[3.490s]       |             [01;35m[K^~~~~~~~~~~~~~~~~~~[m[K
+[7.573s] [100%] [32m[1mLinking CXX executable mtc_tutorial[0m
+[8.176s] [100%] Built target mtc_tutorial
+[8.186s] Invoked command in '/home/jerome/arm_base/build/pick_and_place' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/jerome/ws_moveit2/install/moveit_configs_utils:/home/jerome/ws_moveit2/install/launch_param_builder:/opt/ros/humble /usr/bin/cmake --build /home/jerome/arm_base/build/pick_and_place -- -j16 -l16
+[8.187s] Invoking command in '/home/jerome/arm_base/build/pick_and_place': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/jerome/ws_moveit2/install/moveit_configs_utils:/home/jerome/ws_moveit2/install/launch_param_builder:/opt/ros/humble /usr/bin/cmake --install /home/jerome/arm_base/build/pick_and_place
+[8.198s] -- Install configuration: ""
+[8.199s] -- Installing: /home/jerome/arm_base/install/pick_and_place/lib/pick_and_place/mtc_tutorial
+[8.201s] -- Set runtime path of "/home/jerome/arm_base/install/pick_and_place/lib/pick_and_place/mtc_tutorial" to ""
+[8.201s] -- Up-to-date: /home/jerome/arm_base/install/pick_and_place/share/pick_and_place//launch
+[8.201s] -- Up-to-date: /home/jerome/arm_base/install/pick_and_place/share/pick_and_place//launch/pick_new.launch.py
+[8.201s] -- Up-to-date: /home/jerome/arm_base/install/pick_and_place/share/pick_and_place//launch/pick_and_place.launch.py
+[8.202s] -- Up-to-date: /home/jerome/arm_base/install/pick_and_place/lib/pick_and_place/pick_and_place
+[8.202s] -- Up-to-date: /home/jerome/arm_base/install/pick_and_place/share/ament_index/resource_index/package_run_dependencies/pick_and_place
+[8.202s] -- Up-to-date: /home/jerome/arm_base/install/pick_and_place/share/ament_index/resource_index/parent_prefix_path/pick_and_place
+[8.202s] -- Up-to-date: /home/jerome/arm_base/install/pick_and_place/share/pick_and_place/environment/ament_prefix_path.sh
+[8.202s] -- Up-to-date: /home/jerome/arm_base/install/pick_and_place/share/pick_and_place/environment/ament_prefix_path.dsv
+[8.202s] -- Up-to-date: /home/jerome/arm_base/install/pick_and_place/share/pick_and_place/environment/path.sh
+[8.202s] -- Up-to-date: /home/jerome/arm_base/install/pick_and_place/share/pick_and_place/environment/path.dsv
+[8.202s] -- Up-to-date: /home/jerome/arm_base/install/pick_and_place/share/pick_and_place/local_setup.bash
+[8.203s] -- Up-to-date: /home/jerome/arm_base/install/pick_and_place/share/pick_and_place/local_setup.sh
+[8.203s] -- Up-to-date: /home/jerome/arm_base/install/pick_and_place/share/pick_and_place/local_setup.zsh
+[8.203s] -- Up-to-date: /home/jerome/arm_base/install/pick_and_place/share/pick_and_place/local_setup.dsv
+[8.203s] -- Installing: /home/jerome/arm_base/install/pick_and_place/share/pick_and_place/package.dsv
+[8.203s] -- Up-to-date: /home/jerome/arm_base/install/pick_and_place/share/ament_index/resource_index/packages/pick_and_place
+[8.203s] -- Up-to-date: /home/jerome/arm_base/install/pick_and_place/share/pick_and_place/cmake/pick_and_placeConfig.cmake
+[8.203s] -- Up-to-date: /home/jerome/arm_base/install/pick_and_place/share/pick_and_place/cmake/pick_and_placeConfig-version.cmake
+[8.203s] -- Up-to-date: /home/jerome/arm_base/install/pick_and_place/share/pick_and_place/package.xml
+[8.205s] Invoked command in '/home/jerome/arm_base/build/pick_and_place' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/jerome/ws_moveit2/install/moveit_configs_utils:/home/jerome/ws_moveit2/install/launch_param_builder:/opt/ros/humble /usr/bin/cmake --install /home/jerome/arm_base/build/pick_and_place

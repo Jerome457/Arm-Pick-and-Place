@@ -1,0 +1,10 @@
+[35m[1mConsolidate compiler generated dependencies of target mtc_tutorial[0m
+[ 50%] Built target pick_and_place
+[ 75%] [32mBuilding CXX object CMakeFiles/mtc_tutorial.dir/src/mtc.cpp.o[0m
+[01m[K/home/jerome/arm_base/src/pick_and_place/src/mtc.cpp:8:10:[m[K [01;31m[Kfatal error: [m[Kdeep_grasp_task/deep_pick_place_task.h: No such file or directory
+    8 | #include [01;31m[K<deep_grasp_task/deep_pick_place_task.h>[m[K
+      |          [01;31m[K^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[m[K
+compilation terminated.
+gmake[2]: *** [CMakeFiles/mtc_tutorial.dir/build.make:76: CMakeFiles/mtc_tutorial.dir/src/mtc.cpp.o] Error 1
+gmake[1]: *** [CMakeFiles/Makefile2:165: CMakeFiles/mtc_tutorial.dir/all] Error 2
+gmake: *** [Makefile:146: all] Error 2

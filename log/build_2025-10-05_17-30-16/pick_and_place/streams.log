@@ -1,0 +1,12 @@
+[0.009s] Invoking command in '/home/jerome/arm_base/build/pick_and_place': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/jerome/ws_moveit2/install/moveit_configs_utils:/home/jerome/ws_moveit2/install/launch_param_builder:/opt/ros/humble /usr/bin/cmake --build /home/jerome/arm_base/build/pick_and_place -- -j16 -l16
+[0.055s] [35m[1mConsolidate compiler generated dependencies of target mtc_tutorial[0m
+[0.075s] [ 50%] Built target pick_and_place
+[0.082s] [ 75%] [32mBuilding CXX object CMakeFiles/mtc_tutorial.dir/src/mtc.cpp.o[0m
+[3.305s] [01m[K/home/jerome/arm_base/src/pick_and_place/src/mtc.cpp:[m[K In member function ‘[01m[Kmoveit::task_constructor::Task MTCTaskNode::createTask()[m[K’:
+[3.305s] [01m[K/home/jerome/arm_base/src/pick_and_place/src/mtc.cpp:342:28:[m[K [01;31m[Kerror: [m[K‘[01m[Kclass moveit::task_constructor::stages::Connect[m[K’ has no member named ‘[01m[KsetMonitoredStage[m[K’
+[3.305s]   342 |       connect_from_attach->[01;31m[KsetMonitoredStage[m[K(attach_object_stage);  // This works
+[3.305s]       |                            [01;31m[K^~~~~~~~~~~~~~~~~[m[K
+[5.788s] gmake[2]: *** [CMakeFiles/mtc_tutorial.dir/build.make:76: CMakeFiles/mtc_tutorial.dir/src/mtc.cpp.o] Error 1
+[5.788s] gmake[1]: *** [CMakeFiles/Makefile2:165: CMakeFiles/mtc_tutorial.dir/all] Error 2
+[5.788s] gmake: *** [Makefile:146: all] Error 2
+[5.790s] Invoked command in '/home/jerome/arm_base/build/pick_and_place' returned '2': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/jerome/ws_moveit2/install/moveit_configs_utils:/home/jerome/ws_moveit2/install/launch_param_builder:/opt/ros/humble /usr/bin/cmake --build /home/jerome/arm_base/build/pick_and_place -- -j16 -l16

@@ -1,0 +1,7 @@
+[01m[K/home/jerome/arm_base/src/pick_and_place/src/mtc.cpp:[m[K In member function ‘[01m[Kmoveit::task_constructor::Task MTCTaskNode::createTask()[m[K’:
+[01m[K/home/jerome/arm_base/src/pick_and_place/src/mtc.cpp:342:28:[m[K [01;31m[Kerror: [m[K‘[01m[Kclass moveit::task_constructor::stages::Connect[m[K’ has no member named ‘[01m[KsetMonitoredStage[m[K’
+  342 |       connect_from_attach->[01;31m[KsetMonitoredStage[m[K(attach_object_stage);  // This works
+      |                            [01;31m[K^~~~~~~~~~~~~~~~~[m[K
+gmake[2]: *** [CMakeFiles/mtc_tutorial.dir/build.make:76: CMakeFiles/mtc_tutorial.dir/src/mtc.cpp.o] Error 1
+gmake[1]: *** [CMakeFiles/Makefile2:165: CMakeFiles/mtc_tutorial.dir/all] Error 2
+gmake: *** [Makefile:146: all] Error 2

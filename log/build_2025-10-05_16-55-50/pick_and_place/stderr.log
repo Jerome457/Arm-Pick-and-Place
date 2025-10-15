@@ -1,0 +1,7 @@
+[01m[K/home/jerome/arm_base/src/pick_and_place/src/mtc.cpp:[m[K In member function ‘[01m[Kmoveit::task_constructor::Task MTCTaskNode::createTask()[m[K’:
+[01m[K/home/jerome/arm_base/src/pick_and_place/src/mtc.cpp:341:9:[m[K [01;31m[Kerror: [m[K‘[01m[Kgrasp[m[K’ was not declared in this scope
+  341 |         [01;31m[Kgrasp[m[K->insert(std::move(stage));
+      |         [01;31m[K^~~~~[m[K
+gmake[2]: *** [CMakeFiles/mtc_tutorial.dir/build.make:76: CMakeFiles/mtc_tutorial.dir/src/mtc.cpp.o] Error 1
+gmake[1]: *** [CMakeFiles/Makefile2:165: CMakeFiles/mtc_tutorial.dir/all] Error 2
+gmake: *** [Makefile:146: all] Error 2

@@ -1,0 +1,94 @@
+-- The C compiler identification is GNU 11.4.0
+-- The CXX compiler identification is GNU 11.4.0
+-- Detecting C compiler ABI info
+-- Detecting C compiler ABI info - done
+-- Check for working C compiler: /usr/bin/cc - skipped
+-- Detecting C compile features
+-- Detecting C compile features - done
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Check for working CXX compiler: /usr/bin/c++ - skipped
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- Found ament_cmake: 1.3.12 (/opt/ros/humble/share/ament_cmake/cmake)
+-- Found Python3: /usr/bin/python3 (found version "3.10.12") found components: Interpreter 
+-- Found urdf: 2.6.1 (/opt/ros/humble/share/urdf/cmake)
+-- Found ament_lint_auto: 0.12.14 (/opt/ros/humble/share/ament_lint_auto/cmake)
+-- Added test 'flake8' to check Python code syntax and style conventions
+-- Added test 'lint_cmake' to check CMake code style
+-- Added test 'pep257' to check Python code against some of the docstring style conventions in PEP 257
+-- Added test 'xmllint' to check XML markup files
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /home/jerome/arm_base/build/arm_urdf
+-- Install configuration: ""
+-- Installing: /home/jerome/arm_base/install/arm_urdf/share/arm_urdf//launch
+-- Installing: /home/jerome/arm_base/install/arm_urdf/share/arm_urdf//launch/display.launch.py
+-- Installing: /home/jerome/arm_base/install/arm_urdf/share/arm_urdf//launch/pnp_rviz.launch.py
+-- Installing: /home/jerome/arm_base/install/arm_urdf/share/arm_urdf//config
+-- Installing: /home/jerome/arm_base/install/arm_urdf/share/arm_urdf//config/display.rviz
+-- Installing: /home/jerome/arm_base/install/arm_urdf/share/arm_urdf//meshes
+-- Installing: /home/jerome/arm_base/install/arm_urdf/share/arm_urdf//meshes/AX_12A_01_3.stl
+-- Installing: /home/jerome/arm_base/install/arm_urdf/share/arm_urdf//meshes/link24.stl
+-- Installing: /home/jerome/arm_base/install/arm_urdf/share/arm_urdf//meshes/Component5.stl
+-- Installing: /home/jerome/arm_base/install/arm_urdf/share/arm_urdf//meshes/AX_12A_04_1.stl
+-- Installing: /home/jerome/arm_base/install/arm_urdf/share/arm_urdf//meshes/AX_12A_03_1.stl
+-- Installing: /home/jerome/arm_base/install/arm_urdf/share/arm_urdf//meshes/Component53.stl
+-- Installing: /home/jerome/arm_base/install/arm_urdf/share/arm_urdf//meshes/Component55.stl
+-- Installing: /home/jerome/arm_base/install/arm_urdf/share/arm_urdf//meshes/AX_12A_03_2.stl
+-- Installing: /home/jerome/arm_base/install/arm_urdf/share/arm_urdf//meshes/AX_12A_01_2.stl
+-- Installing: /home/jerome/arm_base/install/arm_urdf/share/arm_urdf//meshes/Wheel_motor_3.stl
+-- Installing: /home/jerome/arm_base/install/arm_urdf/share/arm_urdf//meshes/Component20.stl
+-- Installing: /home/jerome/arm_base/install/arm_urdf/share/arm_urdf//meshes/Component1_1.stl
+-- Installing: /home/jerome/arm_base/install/arm_urdf/share/arm_urdf//meshes/Component7.stl
+-- Installing: /home/jerome/arm_base/install/arm_urdf/share/arm_urdf//meshes/Component56.stl
+-- Installing: /home/jerome/arm_base/install/arm_urdf/share/arm_urdf//meshes/Base_link.stl
+-- Installing: /home/jerome/arm_base/install/arm_urdf/share/arm_urdf//meshes/Component12.stl
+-- Installing: /home/jerome/arm_base/install/arm_urdf/share/arm_urdf//meshes/link23.stl
+-- Installing: /home/jerome/arm_base/install/arm_urdf/share/arm_urdf//meshes/Universal_hub.stl
+-- Installing: /home/jerome/arm_base/install/arm_urdf/share/arm_urdf//meshes/Coupler_meccanum_V2.stl
+-- Installing: /home/jerome/arm_base/install/arm_urdf/share/arm_urdf//meshes/Wheel_motor_4.stl
+-- Installing: /home/jerome/arm_base/install/arm_urdf/share/arm_urdf//meshes/Nema_34_v3.stl
+-- Installing: /home/jerome/arm_base/install/arm_urdf/share/arm_urdf//meshes/AX_12A_04_3.stl
+-- Installing: /home/jerome/arm_base/install/arm_urdf/share/arm_urdf//meshes/AX_12A_02_3.stl
+-- Installing: /home/jerome/arm_base/install/arm_urdf/share/arm_urdf//meshes/STEPPER_MOTOR.stl
+-- Installing: /home/jerome/arm_base/install/arm_urdf/share/arm_urdf//meshes/Component2.stl
+-- Installing: /home/jerome/arm_base/install/arm_urdf/share/arm_urdf//meshes/AX_12A_01_1.stl
+-- Installing: /home/jerome/arm_base/install/arm_urdf/share/arm_urdf//meshes/Soft_finger_1.stl
+-- Installing: /home/jerome/arm_base/install/arm_urdf/share/arm_urdf//meshes/AX_12A_03_3.stl
+-- Installing: /home/jerome/arm_base/install/arm_urdf/share/arm_urdf//meshes/AX_12A_02_2.stl
+-- Installing: /home/jerome/arm_base/install/arm_urdf/share/arm_urdf//meshes/Component6.stl
+-- Installing: /home/jerome/arm_base/install/arm_urdf/share/arm_urdf//meshes/AX_12A_03_4.stl
+-- Installing: /home/jerome/arm_base/install/arm_urdf/share/arm_urdf//meshes/gcomp1.stl
+-- Installing: /home/jerome/arm_base/install/arm_urdf/share/arm_urdf//meshes/Wheel_motor_1.stl
+-- Installing: /home/jerome/arm_base/install/arm_urdf/share/arm_urdf//meshes/AX_12A_01_4.stl
+-- Installing: /home/jerome/arm_base/install/arm_urdf/share/arm_urdf//meshes/AX_12A_02_1.stl
+-- Installing: /home/jerome/arm_base/install/arm_urdf/share/arm_urdf//meshes/Wheel_motor_2.stl
+-- Installing: /home/jerome/arm_base/install/arm_urdf/share/arm_urdf//meshes/AX_12A_02_4.stl
+-- Installing: /home/jerome/arm_base/install/arm_urdf/share/arm_urdf//meshes/firstDOF_final.stl
+-- Installing: /home/jerome/arm_base/install/arm_urdf/share/arm_urdf//meshes/ZED2i-v1.stl
+-- Installing: /home/jerome/arm_base/install/arm_urdf/share/arm_urdf//meshes/Nema34_bracket.stl
+-- Installing: /home/jerome/arm_base/install/arm_urdf/share/arm_urdf//meshes/base_final-v3.stl
+-- Installing: /home/jerome/arm_base/install/arm_urdf/share/arm_urdf//meshes/Spur_Gear_motor.stl
+-- Installing: /home/jerome/arm_base/install/arm_urdf/share/arm_urdf//meshes/AX_12A_04_4.stl
+-- Installing: /home/jerome/arm_base/install/arm_urdf/share/arm_urdf//meshes/Spur_Gear_driven.stl
+-- Installing: /home/jerome/arm_base/install/arm_urdf/share/arm_urdf//meshes/AX_12A_04_2.stl
+-- Installing: /home/jerome/arm_base/install/arm_urdf/share/arm_urdf//meshes/soft_finger_2.stl
+-- Installing: /home/jerome/arm_base/install/arm_urdf/share/arm_urdf//meshes/Component54.stl
+-- Installing: /home/jerome/arm_base/install/arm_urdf/share/arm_urdf//urdf
+-- Installing: /home/jerome/arm_base/install/arm_urdf/share/arm_urdf//urdf/ArmPlate.xacro
+-- Installing: /home/jerome/arm_base/install/arm_urdf/share/ament_index/resource_index/package_run_dependencies/arm_urdf
+-- Installing: /home/jerome/arm_base/install/arm_urdf/share/ament_index/resource_index/parent_prefix_path/arm_urdf
+-- Installing: /home/jerome/arm_base/install/arm_urdf/share/arm_urdf/environment/ament_prefix_path.sh
+-- Installing: /home/jerome/arm_base/install/arm_urdf/share/arm_urdf/environment/ament_prefix_path.dsv
+-- Installing: /home/jerome/arm_base/install/arm_urdf/share/arm_urdf/environment/path.sh
+-- Installing: /home/jerome/arm_base/install/arm_urdf/share/arm_urdf/environment/path.dsv
+-- Installing: /home/jerome/arm_base/install/arm_urdf/share/arm_urdf/local_setup.bash
+-- Installing: /home/jerome/arm_base/install/arm_urdf/share/arm_urdf/local_setup.sh
+-- Installing: /home/jerome/arm_base/install/arm_urdf/share/arm_urdf/local_setup.zsh
+-- Installing: /home/jerome/arm_base/install/arm_urdf/share/arm_urdf/local_setup.dsv
+-- Installing: /home/jerome/arm_base/install/arm_urdf/share/arm_urdf/package.dsv
+-- Installing: /home/jerome/arm_base/install/arm_urdf/share/ament_index/resource_index/packages/arm_urdf
+-- Installing: /home/jerome/arm_base/install/arm_urdf/share/arm_urdf/cmake/arm_urdfConfig.cmake
+-- Installing: /home/jerome/arm_base/install/arm_urdf/share/arm_urdf/cmake/arm_urdfConfig-version.cmake
+-- Installing: /home/jerome/arm_base/install/arm_urdf/share/arm_urdf/package.xml
