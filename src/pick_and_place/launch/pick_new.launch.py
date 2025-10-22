@@ -17,15 +17,17 @@ def generate_launch_description():
         ],
     )
     spawn_mesh_node = Node(
-        package='gazebo_ros',
-        executable='spawn_entity.py',
-        name='spawn_mesh_object',
+        package="gazebo_ros",
+        executable="spawn_entity.py",
         arguments=[
-            '-entity', 'object',        # name of the object in Gazebo
-            '-file', urdf_path,         # path to URDF
-            '-x', '0.0', '-y', '-0.6', '-z', '0.1',
-            '-R', '0', '-P', f'{pi/2}', '-Y', '0'  # 90° pitch rotation
+            "-file", os.path.join(get_package_share_directory("arm_urdf"), "urdf", "object.urdf"),
+            "-entity", "cylinder",
+            "-x", "0.0", "-y", "-0.6", "-z", "0.05",
+            "-R", str(radians(90)),            # roll
+            "-P", "0.0", # pitch -> lying along X
+            "-Y", "0.0"             # yaw
         ],
-        output='screen'
+        output="screen"
     )
+
     return LaunchDescription([spawn_mesh_node])
