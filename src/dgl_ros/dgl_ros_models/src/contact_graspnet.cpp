@@ -88,33 +88,41 @@ SampleGraspPoses::Feedback::SharedPtr ContactGraspnet::actionFromObs(std::shared
   std::vector<geometry_msgs::msg::PoseStamped> grasps;
   std::vector<unsigned int> grasp_ids;
   RCLCPP_INFO_STREAM(this->get_logger(), "grasp_list size: " << grasp_list.size());
-  for (unsigned int i = 0; i < grasp_list.size(); i++)
-  {
+for (unsigned int i = 0; i < grasp_list.size(); i++)
+{
     grasp_ids.push_back(i);
-    geometry_msgs::msg::Pose pose;
+
     const auto cgn_grasp = Eigen::Affine3d(grasp_list[i]);
+    Eigen::Affine3d full_transform = cgn_grasp * grasp_model_tf;  // combine affine transforms
     if (visualize)
     {
-      visual_tools_->publishAxisLabeled(tf2::toMsg(cgn_grasp), "cgn_frame");
+        visual_tools_->publishAxisLabeled(tf2::toMsg(full_transform), "cgn_frame");
     }
 
     geometry_msgs::msg::PoseStamped grasp;
     grasp.header.frame_id = world_frame;
-    grasp.pose = tf2::toMsg(cgn_grasp * grasp_model_tf.linear());
+
+    // Set orientation
+    Eigen::Quaterniond q(full_transform.linear());
+    grasp.pose.orientation = tf2::toMsg(q);
+
+    // Set position
+    Eigen::Vector3d t = full_transform.translation();
+    grasp.pose.position = tf2::toMsg(t);
 
     if (remove_centroid)
     {
-      grasp.pose.position.x += centroid_[0];
-      grasp.pose.position.y += centroid_[1];
-      grasp.pose.position.z += centroid_[2];
+        grasp.pose.position.x += centroid_[0];
+        grasp.pose.position.y += centroid_[1];
+        grasp.pose.position.z += centroid_[2];
     }
     grasps.push_back(grasp);
     if (visualize)
     {
-      visual_tools_->publishAxisLabeled(grasp.pose, std::to_string(confidence_list[i]));
-      visual_tools_->trigger();
+        visual_tools_->publishAxisLabeled(grasp.pose, std::to_string(confidence_list[i]));
+        visual_tools_->trigger();
     }
-  }
+}
 
   auto feedback = std::make_shared<SampleGraspPoses::Feedback>();
   for (auto id : grasp_ids)

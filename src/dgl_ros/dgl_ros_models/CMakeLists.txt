@@ -60,30 +60,30 @@ target_include_directories(util PUBLIC
     "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>"
     "$<INSTALL_INTERFACE:include/dgl_ros>")
 
-# add_executable(contact_graspnet
-#     src/contact_graspnet.cpp
-# )
-# ament_target_dependencies(contact_graspnet PUBLIC
-#     rclcpp
-#     dgl_ros_interfaces
-#     pcl_conversions
-#     PCL
-#     dgl_ros
-#     sensor_msgs
-#     tf2_eigen)
-# target_link_libraries(contact_graspnet PUBLIC
-#     util
-#     ${Python_LIBRARIES}
-#     ${pybind11_LIBRARIES})
-# target_include_directories(contact_graspnet PUBLIC
-#     "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>"
-#     "$<INSTALL_INTERFACE:include/${PROJECT_NAME}>")
+add_executable(contact_graspnet
+    src/contact_graspnet.cpp
+)
+ament_target_dependencies(contact_graspnet PUBLIC
+    rclcpp
+    dgl_ros_interfaces
+    pcl_conversions
+    PCL
+    dgl_ros
+    sensor_msgs
+    tf2_eigen)
+target_link_libraries(contact_graspnet PUBLIC
+    util
+    ${Python_LIBRARIES}
+    ${pybind11_LIBRARIES})
+target_include_directories(contact_graspnet PUBLIC
+    "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>"
+    "$<INSTALL_INTERFACE:include/${PROJECT_NAME}>")
 
-# install(TARGETS
-#     contact_graspnet
-#     RUNTIME DESTINATION lib/${PROJECT_NAME}
-#     LIBRARY DESTINATION lib
-# )
+install(TARGETS
+    contact_graspnet
+    RUNTIME DESTINATION lib/${PROJECT_NAME}
+    LIBRARY DESTINATION lib
+)
 install(TARGETS util
     EXPORT export_${PROJECT_NAME}
     ARCHIVE DESTINATION lib
