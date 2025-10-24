@@ -8,11 +8,23 @@ endif()
 # find dependencies
 find_package(ament_cmake REQUIRED)
 find_package(urdf REQUIRED)
+find_package(rclcpp REQUIRED)
+find_package(sensor_msgs REQUIRED)
+
+add_executable(pointcloud_relay_node src/relay.cpp)
+
+ament_target_dependencies(pointcloud_relay_node
+  rclcpp
+  sensor_msgs
+)
+install(TARGETS
+  pointcloud_relay_node
+  DESTINATION lib/${PROJECT_NAME}
+)
 # uncomment the following section in order to fill in
 # further dependencies manually.
 # find_package(<dependency> REQUIRED)
-install(DIRECTORY launch DESTINATION share/${PROJECT_NAME}/)
-install(DIRECTORY config meshes urdf DESTINATION share/${PROJECT_NAME}/)
+install(DIRECTORY config meshes urdf launch src DESTINATION share/${PROJECT_NAME}/)
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)
   # the following line skips the linter which checks for copyrights

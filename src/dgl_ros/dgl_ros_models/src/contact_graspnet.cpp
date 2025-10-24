@@ -27,10 +27,10 @@ ContactGraspnet::ContactGraspnet(rclcpp::NodeOptions& options) : CgnAgent(option
   this->declare_parameter("tf_timeout_seconds", 5);
   this->declare_parameter("visualize", false);
   this->declare_parameter("success_threshold", 0.5);
-  this->declare_parameter("remove_centroid", true);
+  this->declare_parameter("remove_centroid", false);
   this->declare_parameter("max_grasps", 10);
-  this->declare_parameter("gripper_width", 0.035);
-  this->declare_parameter("gripper_depth", 0.035);
+  this->declare_parameter("gripper_width", 0.07);
+  this->declare_parameter("gripper_depth", 0.05);
   this->declare_parameter<std::vector<double>>("grasp_model_tf", { 0.0, 0.0, 0.0, -M_PI_2, 0.0, -M_PI_2 });
   auto tf_timeout_seconds = this->get_parameter("tf_timeout_seconds").as_int();
   auto src_frame0 = this->get_parameter("src_frame0").as_string();
@@ -38,7 +38,7 @@ ContactGraspnet::ContactGraspnet(rclcpp::NodeOptions& options) : CgnAgent(option
 
   visual_tools_ = std::make_shared<rviz_visual_tools::RvizVisualTools>(world_frame, "/rviz_visual_markers", this);
   tf_lookup_ = std::make_unique<dgl::util::TransformLookup>(this);
-  tf_lookup_->get_tf_affine(world_frame, src_frame0, tf_timeout_seconds, tf_world_src_);
+  tf_lookup_->get_tf_affine(world_frame, "depth_camera_optical_frame", tf_timeout_seconds, tf_world_src_);
 
   // Initialize python interpreter.
   // TODO(speralta): Do not do this with the pybind11 embedded interpreter.
@@ -148,7 +148,7 @@ std::unique_ptr<PointCloud2> ContactGraspnet::obsFromSrcs(std::shared_ptr<PointC
   world_cloud->header.frame_id = "world";
 
   // Filter workspace.
-  dgl::util::cloud::passThroughFilter({ 0.3, -0.5, 0.005 }, { 0.8, 0.5, 0.5 }, world_cloud);
+  // dgl::util::cloud::passThroughFilter({ 0.3, -0.5, 0.005 }, { 0.8, 0.5, 0.5 }, world_cloud);
   dgl::util::cloud::removeTable(world_cloud);
   if (!remove_centroid)
   {

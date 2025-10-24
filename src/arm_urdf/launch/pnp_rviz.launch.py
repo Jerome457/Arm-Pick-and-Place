@@ -119,19 +119,12 @@ def generate_launch_description():
         ],
         output="screen"
     )
-
-    # ros2_control using FakeSystem as hardware
-    ros2_controllers_path = os.path.join(
-        get_package_share_directory("arm_urdf_moveit_config"),
-        "config",
-        "ros2_controllers.yaml",
-    )
-    ros2_control_node = Node(
-        package="controller_manager",
-        executable="ros2_control_node",
-        parameters=[moveit_config.to_dict(), ros2_controllers_path,sim_time],
-        output="both",
-    )
+    relay_node= Node(
+            package='arm_urdf',
+            executable='pointcloud_relay_node',
+            name='pointcloud_relay',
+            output='screen'
+        )
 
     # Load controllers
     load_controllers = []
@@ -155,7 +148,8 @@ def generate_launch_description():
             robot_state_publisher,
             run_move_group_node,
             spawn_the_robot,
-            gazebo
+            gazebo,
+            relay_node
         ]
         + load_controllers
     )
