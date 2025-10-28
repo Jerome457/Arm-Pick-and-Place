@@ -51,12 +51,69 @@ private:
   void handle_accepted(const GoalHandleSharedPtr& goal_handle)
   {
     RCLCPP_INFO(this->get_logger(), "New goal accepted");
-    // This needs to return quickly to avoid blocking the executor, so spin up a new thread.
-    auto publish_grasps_callback = [this](const GoalHandleSharedPtr& goal_handle) {
-      goal_handle->publish_feedback(action_generator_func_());
-    };
-    std::thread{ publish_grasps_callback, goal_handle }.detach();
+
+    // Spawn a thread to execute the goal so it doesn’t block the executor
+    std::thread{ [this, goal_handle]() {
+        execute(goal_handle);
+    }}.detach();
   }
+
+
+void execute(const GoalHandleSharedPtr &goal_handle)
+{
+  RCLCPP_INFO(this->get_logger(), "Executing GPD grasp detection goal...");
+
+  auto result = std::make_shared<typename ActionT::Result>();
+
+  try
+  {
+    // Generate grasp poses (calls Gpd::actionFromObs internally)
+    auto feedback = action_generator_func_();
+
+    // Check for cancel request before sending feedback
+    if (goal_handle->is_canceling())
+    {
+      RCLCPP_WARN(this->get_logger(), "Goal canceled before completion");
+      goal_handle->canceled(result);
+      return;
+    }
+
+    // Publish all detected grasps as feedback
+    goal_handle->publish_feedback(feedback);
+    RCLCPP_INFO(this->get_logger(), "Published %zu grasp candidates", feedback->grasp_candidates.size());
+
+    // --- Select the best grasp (lowest cost) ---
+    if (!feedback->grasp_candidates.empty() && feedback->grasp_candidates.size() == feedback->costs.size())
+    {
+      // Find index of grasp with minimum cost
+      auto min_it = std::min_element(feedback->costs.begin(), feedback->costs.end());
+      size_t best_idx = std::distance(feedback->costs.begin(), min_it);
+
+      const auto &best_grasp = feedback->grasp_candidates[best_idx];
+      double best_cost = feedback->costs[best_idx];
+
+      // Assign best grasp pose to the result
+      result->best_grasp_pose = best_grasp;
+    }
+    else
+    {
+      RCLCPP_WARN(this->get_logger(), "No valid grasps detected");
+      result->best_grasp_pose.header.frame_id = "world";
+    }
+
+    // Optional small delay
+    std::this_thread::sleep_for(std::chrono::milliseconds(200));
+
+    // Mark goal as succeeded
+    goal_handle->succeed(result);
+    RCLCPP_INFO(this->get_logger(), "Goal succeeded — best grasp returned as result");
+  }
+  catch (const std::exception &e)
+  {
+    RCLCPP_ERROR(this->get_logger(), "Exception during grasp detection: %s", e.what());
+    goal_handle->abort(result);
+  }
+}
 
   /**
    * @brief Called every time feedback is received for the goal

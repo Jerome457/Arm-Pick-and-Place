@@ -3,6 +3,7 @@ string action_name
 ---
 # result sent to server
 string grasp_state
+geometry_msgs/PoseStamped best_grasp_pose
 ---
 # feedback sent to server
 # grasp poses

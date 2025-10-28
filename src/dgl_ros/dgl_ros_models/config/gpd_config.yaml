@@ -16,9 +16,9 @@ image_geometry_filename = 0
 # hand_depth = 0.035
 # hand_height = 0.0266
 finger_width = 0.02
-hand_outer_diameter = 0.08
-hand_depth = 0.035
-hand_height = 0.025
+hand_outer_diameter = 0.11
+hand_depth = 0.05
+hand_height = 0.03
 init_bite = 0.01
 
 # ==== Grasp Descriptor ==== (cm)
@@ -34,7 +34,7 @@ image_size = 60
 image_num_channels = 15
 
 # Path to directory that contains neural network parameters
-weights_file = /simply_ws/src/gpd/models/lenet/15channels/params/
+weights_file = /home/jerome/gpd/models/lenet/15channels/params/
 
 # Preprocessing of point cloud
 #   voxelize: if the cloud gets voxelized/downsampled
@@ -43,9 +43,9 @@ weights_file = /simply_ws/src/gpd/models/lenet/15channels/params/
 #   camera_position: the position of the camera from which the cloud was taken
 #   sample_above_plane: only draws samples which do not belong to the table plane
 voxelize = 1
-voxel_size = 0.001
+voxel_size = 0.002
 remove_outliers = 0
-workspace = 0.25 0.6 -0.5 0.05 0 0.3
+workspace = -0.3 0.3 -0.3 0.0 0.0 0.7
 # workspace = 0.2 0.5 -0.5 0 0.01 0.2
 # workspace = -0.1 0.1 -0.3 0.2 0.5 0.8
 # workspace = -0.25 -0.16 -0.06 0.06 0.45 0.75
@@ -62,9 +62,9 @@ workspace = 0.25 0.6 -0.5 0.05 0 0.3
 # camera_position = 0.5 0 0.7
 # camera_position = 0.15 0 0.04
 # camera_position = 0.084 0.017 0.522
-camera_position = 0 0 0.57
+camera_position = --0.092 -0.541 0.5943
 sample_above_plane = 1
-tf_base_cam = 0.085 0.017 0.524 0 0.8 0
+tf_base_cam = -0.080 -0.544 0.592 2.465 1.545 0.890
 tf_cam_opt = 0 0 0 0 0 0
 # Grasp candidate generation
 #   num_samples: the number of samples to be drawn from the point cloud
@@ -80,8 +80,8 @@ tf_cam_opt = 0 0 0 0 0 0
 # hand_axes = 2
 # deepen_hand = 0
 num_samples = 500
-num_threads = 4
-nn_radius = 0.01
+num_threads = 6
+nn_radius = 0.02
 num_orientations = 8
 num_finger_placements = 10
 hand_axes = 2
@@ -92,12 +92,13 @@ deepen_hand = 0
 #   max_aperture: the maximum gripper width
 #   workspace_grasps: dimensions of a cube centered at origin of point cloud; should be smaller than <workspace>
 min_aperture = 0.0
-max_aperture = 0.035
+max_aperture = 0.05
 # workspace_grasps = -1.0 1.0 -1.0 1.0 -1.0 1.0
 # workspace_grasps = -0.25 -0.16 -0.06 0.06 0.3 0.75
 # workspace_grasps = 0.4 0.6 -0.2 0.1 0 0.4
 # workspace_grasps = 0.1 0.6 -0.5 0 0 0.5
-workspace_grasps = 0.1 0.5 -1 0 0.012 0.5
+workspace_grasps = -0.2 0.2 -0.2 0.0 0.0 0.6
+
 
 # workspace_grasps = -0.3 -0.1 -0.15 0.15 0.25 0.7
 
@@ -114,7 +115,7 @@ workspace_grasps = 0.1 0.5 -1 0 0.012 0.5
 #   direction: the direction to compare against
 #   angle_thresh: angle in radians above which grasps are filtered
 filter_approach_direction = 1 #1
-direction = 0 0 -1
+direction = 0 0 1
 # thresh_rad = 0.707
 thresh_rad = 0.3535
 # thresh_rad = 0.707

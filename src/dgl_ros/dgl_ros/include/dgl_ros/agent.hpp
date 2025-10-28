@@ -36,7 +36,7 @@ public:
     this->declare_parameter("world_frame", "world");
     for (int i = 0; i < sizeof...(SrcTs); i++)
     {
-      this->declare_parameter("src_frame" + std::to_string(i), "camera_locobot_link");
+      this->declare_parameter("src_frame" + std::to_string(i), "depth_camera_optical_frame");
     }
     
     const auto obs_from_srcs_callback = [this](std::shared_ptr<SrcTs>... src_msgs) { return obsFromSrcs(src_msgs...); };

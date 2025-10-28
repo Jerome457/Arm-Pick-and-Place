@@ -120,7 +120,7 @@ private:
     std::array<std::string, sizeof...(SrcTs)> src_topics;
     for (int i = 0; i < sizeof...(SrcTs); i++)
     {
-      this->declare_parameter("src_topic" + std::to_string(i), "rgbd_camera/points");
+      this->declare_parameter("src_topic" + std::to_string(i), "/rgbd_camera/depth_camera/points_reliable");
       src_topics[i] = this->get_parameter("src_topic" + std::to_string(i)).as_string();
     }
     this->declare_parameter("publish_observation", true);

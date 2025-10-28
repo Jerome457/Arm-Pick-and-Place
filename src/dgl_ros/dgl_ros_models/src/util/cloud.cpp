@@ -12,36 +12,35 @@ namespace cloud
 {
 void removeTable(PointCloudRGB::Ptr cloud)
 {
-  // SAC segmentor without normals
-  pcl::SACSegmentation<pcl::PointXYZRGB> segmentor;
-  segmentor.setOptimizeCoefficients(true);
-  segmentor.setModelType(pcl::SACMODEL_PLANE);
-  segmentor.setMethodType(pcl::SAC_RANSAC);
+    if (cloud->points.empty()) return;
 
-  // Max iterations and model tolerance
-  segmentor.setMaxIterations(1000);
-  segmentor.setDistanceThreshold(0.01);
+    // Find the lowest z value (ground)
+    float min_z = cloud->points[0].z;
+    for (const auto& pt : cloud->points)
+    {
+        if (pt.z < min_z)
+            min_z = pt.z;
+    }
 
-  // Input cloud
-  segmentor.setInputCloud(cloud);
+    // Set a small margin above the ground to keep objects
+    float table_margin = 0.001; // 1 cm above ground
 
-  // Inliers representing points in the plane
-  pcl::PointIndices::Ptr inliers_plane(new pcl::PointIndices);
+    PointCloudRGB::Ptr filtered(new PointCloudRGB);
+    for (const auto& pt : cloud->points)
+    {
+        if (pt.z > min_z + table_margin) // keep points above ground + margin
+        {
+            filtered->points.push_back(pt);
+        }
+    }
 
-  // Use a plane as the model for the segmentor
-  pcl::ModelCoefficients::Ptr coefficients_plane(new pcl::ModelCoefficients);
-  segmentor.segment(*inliers_plane.get(), *coefficients_plane.get());
+    filtered->width = filtered->points.size();
+    filtered->height = 1;
+    filtered->is_dense = true;
 
-  // Extract the inliers from the cloud
-  pcl::ExtractIndices<pcl::PointXYZRGB> extract_indices;
-  extract_indices.setInputCloud(cloud);
-  extract_indices.setIndices(inliers_plane);
-
-  // Remove plane inliers and extract the rest
-  extract_indices.setNegative(true);
-  extract_indices.filter(*cloud.get());
-
+    *cloud = *filtered;
 }
+
 
 void passThroughFilter(const std::vector<double>& xyz_lower, const std::vector<double>& xyz_upper,
                        PointCloudRGB::Ptr cloud)
