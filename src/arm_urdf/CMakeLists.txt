@@ -12,7 +12,7 @@ find_package(urdf REQUIRED)
 # further dependencies manually.
 # find_package(<dependency> REQUIRED)
 install(DIRECTORY launch DESTINATION share/${PROJECT_NAME}/)
-install(DIRECTORY config meshes urdf DESTINATION share/${PROJECT_NAME}/)
+install(DIRECTORY rcup_objects config meshes urdf DESTINATION share/${PROJECT_NAME}/)
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)
   # the following line skips the linter which checks for copyrights

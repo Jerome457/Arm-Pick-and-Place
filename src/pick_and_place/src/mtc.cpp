@@ -5,6 +5,9 @@
 #include <moveit/task_constructor/task.h>
 #include <moveit/task_constructor/solvers.h>
 #include <moveit/task_constructor/stages.h>
+#include <geometric_shapes/shape_operations.h>
+#include <geometric_shapes/mesh_operations.h>
+#include <shape_msgs/msg/mesh.hpp>
 #include <cmath> 
 #if __has_include(<tf2_geometry_msgs/tf2_geometry_msgs.hpp>)
 #include <tf2_geometry_msgs/tf2_geometry_msgs.hpp>
@@ -51,75 +54,93 @@ MTCTaskNode::MTCTaskNode(const rclcpp::NodeOptions& options)
 
 void MTCTaskNode::setupPlanningScene()
 {
-// ----- Add Object -----
-moveit_msgs::msg::CollisionObject object;
-object.id = "object";
-object.header.frame_id = "world";
-object.primitives.resize(1);
-object.primitives[0].type = shape_msgs::msg::SolidPrimitive::CYLINDER;
-object.primitives[0].dimensions = {0.05, 0.01};  // height, radius
+  // ----- Add Mesh Object -----
+  moveit_msgs::msg::CollisionObject mesh_obj;
+  mesh_obj.id = "object";
+  mesh_obj.header.frame_id = "world";
 
-geometry_msgs::msg::Pose object_pose;
-// object_pose.position.x = 0.3;
-// object_pose.position.y = 0.0;
-// object_pose.position.z = 0.01;  // Make sure it's above ground
-object_pose.orientation.x = 0.7071;
-object_pose.orientation.y = 0.0;
-object_pose.orientation.z = 0.0;
-object_pose.orientation.w = 0.7071;
+  // Load the mesh resource (from your package)
+  std::string mesh_path = "package://arm_urdf/rcup_objects/M30-1.stl";
 
-object_pose.position.x = 0.0;
-object_pose.position.y = -0.6;
-object_pose.position.z = 0.01;  // Make sure it's above ground
-// object_pose.orientation.w = 1.0;
-object.primitive_poses.push_back(object_pose);
-object.operation = object.ADD;
+  // Scale the mesh down (0.001 = 1/1000th original size)
+  shapes::Mesh* mesh = shapes::createMeshFromResource(mesh_path, Eigen::Vector3d(0.0001, 0.0001, 0.0001));
+  if (!mesh)
+  {
+    RCLCPP_ERROR(node_->get_logger(), "Failed to load mesh from: %s", mesh_path.c_str());
+    return;
+  }
 
-// ----- Add Ground Plane -----
-moveit_msgs::msg::CollisionObject ground;
-ground.id = "ground_plane";
-ground.header.frame_id = "base_footprint";  // or your planning frame
+  // Convert shape to message
+  shapes::ShapeMsg shape_msg;
+  shapes::constructMsgFromShape(mesh, shape_msg);
+  shape_msgs::msg::Mesh mesh_msg = boost::get<shape_msgs::msg::Mesh>(shape_msg);
 
-shape_msgs::msg::SolidPrimitive ground_shape;
-ground_shape.type = shape_msgs::msg::SolidPrimitive::BOX;
-ground_shape.dimensions = {4.0, 4.0, 0.01};  // large thin box
+  // Set mesh pose (control position + orientation)
+  geometry_msgs::msg::Pose mesh_pose;
+  mesh_pose.position.x = 0.0;
+  mesh_pose.position.y = -0.6;
+  mesh_pose.position.z = 0.02;
 
-geometry_msgs::msg::Pose ground_pose;
-ground_pose.position.z = -0.1;  // top of ground at z=0
-ground_pose.orientation.w = 1.0;
+  // Example: Rotate 90° about Y-axis, 45° about Z-axis
+  tf2::Quaternion q;
+  q.setRPY(0.0,M_PI/2, 0.0);  // (roll, pitch, yaw)
+  mesh_pose.orientation = tf2::toMsg(q);
 
-ground.primitives.push_back(ground_shape);
-ground.primitive_poses.push_back(ground_pose);
-ground.operation = ground.ADD;
+  // Fill collision object fields
+  mesh_obj.meshes.push_back(mesh_msg);
+  mesh_obj.mesh_poses.push_back(mesh_pose);
+  mesh_obj.operation = mesh_obj.ADD;
 
-moveit_msgs::msg::ObjectColor object_color;
-object_color.id = "object";
-object_color.color.r = 0.0;
-object_color.color.g = 1.0;
-object_color.color.b = 0.0;
-object_color.color.a = 1.0;
+  // ----- Add Ground Plane -----
+  moveit_msgs::msg::CollisionObject ground;
+  ground.id = "ground_plane";
+  ground.header.frame_id = "world";
 
-moveit_msgs::msg::ObjectColor ground_color;
-ground_color.id = "ground_plane";
-ground_color.color.r = 0.0;
-ground_color.color.g = 0.0;
-ground_color.color.b = 1.0;
-ground_color.color.a = 0.0;
+  shape_msgs::msg::SolidPrimitive ground_shape;
+  ground_shape.type = shape_msgs::msg::SolidPrimitive::BOX;
+  ground_shape.dimensions = {4.0, 4.0, 0.01};  // large thin box
 
-// ----- Publish Planning Scene with Color -----
-moveit_msgs::msg::PlanningScene scene_msg;
-scene_msg.is_diff = true;
-scene_msg.world.collision_objects.push_back(object);
-scene_msg.world.collision_objects.push_back(ground);
-scene_msg.object_colors.push_back(object_color);
-scene_msg.object_colors.push_back(ground_color);
-// Publisher must be kept alive until message is sent
-auto planning_scene_pub = node_->create_publisher<moveit_msgs::msg::PlanningScene>("/planning_scene", 10);
-rclcpp::Rate rate(10);
-for (int i = 0; i < 5; ++i) {
-  planning_scene_pub->publish(scene_msg);
-  rate.sleep();
-}
+  geometry_msgs::msg::Pose ground_pose;
+  ground_pose.position.z = -0.1;  // top of ground at z=0
+  ground_pose.orientation.w = 1.0;
+
+  ground.primitives.push_back(ground_shape);
+  ground.primitive_poses.push_back(ground_pose);
+  ground.operation = ground.ADD;
+
+  // ----- Add Colors -----
+  moveit_msgs::msg::ObjectColor mesh_color;
+  mesh_color.id = "object";
+  mesh_color.color.r = 0.0;
+  mesh_color.color.g = 1.0;
+  mesh_color.color.b = 0.0;
+  mesh_color.color.a = 1.0;
+
+  moveit_msgs::msg::ObjectColor ground_color;
+  ground_color.id = "ground_plane";
+  ground_color.color.r = 0.0;
+  ground_color.color.g = 0.0;
+  ground_color.color.b = 1.0;
+  ground_color.color.a = 0.0;
+
+  // ----- Publish Planning Scene -----
+  moveit_msgs::msg::PlanningScene scene_msg;
+  scene_msg.is_diff = true;
+  scene_msg.world.collision_objects.push_back(mesh_obj);
+  scene_msg.world.collision_objects.push_back(ground);
+  scene_msg.object_colors.push_back(mesh_color);
+  scene_msg.object_colors.push_back(ground_color);
+
+  // Publisher must stay alive briefly to ensure the message is sent
+  auto planning_scene_pub =
+      node_->create_publisher<moveit_msgs::msg::PlanningScene>("/planning_scene", 10);
+
+  rclcpp::Rate rate(10);
+  for (int i = 0; i < 5; ++i)
+  {
+    planning_scene_pub->publish(scene_msg);
+    rate.sleep();
+  }
 
 }
 
@@ -258,7 +279,7 @@ task.add(std::move(stage_move_to_pick));
                             Eigen::AngleAxisd(-M_PI/2, Eigen::Vector3d::UnitY()) *
                             Eigen::AngleAxisd(0.0, Eigen::Vector3d::UnitZ());
         grasp_frame_transform.linear() = q.matrix();
-        grasp_frame_transform.translation() = Eigen::Vector3d(0.0, -0.02, 0.03);
+        grasp_frame_transform.translation() = Eigen::Vector3d(0.0, -0.02, 0.0);
         // Compute IK
         auto wrapper =
             std::make_unique<mtc::stages::ComputeIK>("grasp pose IK", std::move(stage));
