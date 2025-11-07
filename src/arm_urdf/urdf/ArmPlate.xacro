@@ -1,6 +1,12 @@
 <?xml version='1.0' encoding='utf-8'?>
 <robot name="ArmPlate">
     <link name="base_footprint"/>
+    <!-- <link name="world"/>
+
+    <joint name="base_to_world" type="floating">
+    <parent link ="world"/>
+    <child link = "base_footprint"/>
+    </joint> -->
     <link name="AX_12A_04_4">
         <inertial>
             <origin xyz="0.00376632467123863 0.0012727498224595292 -9.81553837634408e-05" rpy="0.0 -0.0 8.552847072295026e-50" />
@@ -1066,7 +1072,7 @@
         <child link="Spur_Gear_motor" />
         <axis xyz="-0.947081 0.32004499999999997 -0.024683000000000014" />
         <limit lower="-1000" upper="1000" effort="10" velocity="10"/>
-        <mimic joint="gcomp1_Revolute_63" multiplier="-1.0" offset="0"/>
+        <!-- <mimic joint="gcomp1_Revolute_63" multiplier="-1.0" offset="0"/> -->
     </joint>
     <joint name="Base_link_Rigid_91" type="fixed">
         <origin xyz="0.0 0.014000000000000021 0.0" rpy="-1.5707963267948966 -2.256926366529482e-28 -7.121603906070465e-58" />
@@ -1112,24 +1118,28 @@
         <parent link="Wheel_motor_2" />
         <child link="Component53" />
         <axis xyz="1.0 2.635647389719074e-60 2.139937261679685e-14" />
+        <dynamics damping="1.0" friction="1.0"/> 
     </joint>
     <joint name="Wheel_motor_4_Revolute_106" type="continuous">
         <origin xyz="-1.7763568394002505e-17 -3.552713678800501e-17 0.026999999999999993" rpy="1.5707963267948966 -1.570796326794895 0" />
         <parent link="Wheel_motor_4" />
         <child link="Component54" />
         <axis xyz="-1.0 8.586479331114432e-60 -2.1399372616796854e-14" />
+        <dynamics damping="1.0" friction="1.0"/> 
     </joint>
     <joint name="Wheel_motor_1_Revolute_107" type="continuous">
         <origin xyz="-0.0020000000000000287 0.0056568599999999945 0.026999999999999993" rpy="1.5707963267948966 -1.570796326794895 0" />
         <parent link="Wheel_motor_1" />
         <child link="Component55" />
         <axis xyz="-1.0 -7.16708135826507e-61 -2.139937261679685e-14" />
+        <dynamics damping="1.0" friction="1.0"/> 
     </joint>
     <joint name="Wheel_motor_3_Revolute_108" type="continuous">
         <origin xyz="-1.7763568394002505e-17 0.005999999999999961 0.026999999999999993" rpy="-1.5707963267948966 1.5707963267948948 0" />
         <parent link="Wheel_motor_3" />
         <child link="Component56" />
         <axis xyz="1.0 -8.619515182870853e-61 2.139937261679685e-14" />
+        <dynamics damping="1.0" friction="1.0"/> 
     </joint>
     <joint name="base_final-v3_Rigid_114" type="fixed">
         <origin xyz="0.2 0.1886178247251832 0.6715026876261198" rpy="-3.672062653947704e-14 -0.0 0.0" />

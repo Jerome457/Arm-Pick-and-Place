@@ -57,7 +57,7 @@ void MTCTaskNode::setupPlanningScene()
   // ----- Add Mesh Object -----
   moveit_msgs::msg::CollisionObject mesh_obj;
   mesh_obj.id = "object";
-  mesh_obj.header.frame_id = "world";
+  mesh_obj.header.frame_id = "odom";
 
   // Load the mesh resource (from your package)
   std::string mesh_path = "package://arm_urdf/rcup_objects/M30-1.stl";
@@ -78,7 +78,7 @@ void MTCTaskNode::setupPlanningScene()
   // Set mesh pose (control position + orientation)
   geometry_msgs::msg::Pose mesh_pose;
   mesh_pose.position.x = 0.0;
-  mesh_pose.position.y = -0.6;
+  mesh_pose.position.y = -0.8;
   mesh_pose.position.z = 0.02;
 
   // Example: Rotate 90° about Y-axis, 45° about Z-axis
@@ -94,7 +94,7 @@ void MTCTaskNode::setupPlanningScene()
   // ----- Add Ground Plane -----
   moveit_msgs::msg::CollisionObject ground;
   ground.id = "ground_plane";
-  ground.header.frame_id = "world";
+  ground.header.frame_id = "odom";
 
   shape_msgs::msg::SolidPrimitive ground_shape;
   ground_shape.type = shape_msgs::msg::SolidPrimitive::BOX;
@@ -258,7 +258,7 @@ task.add(std::move(stage_move_to_pick));
       
         // Set hand forward direction
         geometry_msgs::msg::Vector3Stamped vec;
-        vec.header.frame_id = "world";
+        vec.header.frame_id = "odom";
         vec.vector.z = -0.05;
         stage->setDirection(vec);
         grasp->insert(std::move(stage));
@@ -328,7 +328,7 @@ task.add(std::move(stage_move_to_pick));
       
         // Set upward direction
         geometry_msgs::msg::Vector3Stamped vec;
-        vec.header.frame_id = "world";
+        vec.header.frame_id = "odom";
         vec.vector.z = 0.5;
         stage->setDirection(vec);
         grasp->insert(std::move(stage));
@@ -373,7 +373,7 @@ task.add(std::move(stage_move_to_pick));
     
       // Set retreat direction
       geometry_msgs::msg::Vector3Stamped vec;
-      vec.header.frame_id = "world";
+      vec.header.frame_id = "odom";
       vec.vector.z = 0.05;
       stage->setDirection(vec);
       task.add(std::move(stage));

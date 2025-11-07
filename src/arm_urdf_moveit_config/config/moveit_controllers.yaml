@@ -21,8 +21,8 @@ moveit_simple_controller_manager:
       - AX_12A_04_2_Revolute_86
     action_ns: follow_joint_trajectory
   hand_controller:
-    type: GripperCommand
+    type: FollowJointTrajectory 
     joints:
       - gcomp1_Revolute_63
       - AX_12A_04_4_Revolute_90
-    action_ns: gripper_cmd
+    action_ns: follow_joint_trajectory

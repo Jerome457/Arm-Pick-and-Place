@@ -8,11 +8,14 @@ controller_manager:
 
 
     hand_controller:
-      type: position_controllers/GripperActionController
+      type: joint_trajectory_controller/JointTrajectoryController
 
 
     joint_state_broadcaster:
       type: joint_state_broadcaster/JointStateBroadcaster
+
+    diff_drive_controller:
+      type: diff_drive_controller/DiffDriveController
 
 arm_controller:
   ros__parameters:
@@ -32,5 +35,29 @@ arm_controller:
       - velocity
 hand_controller:
   ros__parameters:
-    joint: gcomp1_Revolute_63
-    action_ns: gripper_cmd
+    joints: 
+      - gcomp1_Revolute_63
+      - AX_12A_04_4_Revolute_90
+    action_ns: follow_joint_trajectory
+    command_interfaces:
+      - position
+    state_interfaces:
+      - position
+      - velocity
+
+diff_drive_controller:
+  ros__parameters:
+    left_wheel_names: ["Wheel_motor_1_Revolute_107","Wheel_motor_4_Revolute_106"]
+    right_wheel_names: ["Wheel_motor_2_Revolute_105","Wheel_motor_3_Revolute_108"]
+
+    wheel_separation: 0.4     # distance between left and right wheels
+    wheel_radius: 0.075        # wheel radius
+
+    base_frame_id: base_footprint
+    odom_frame_id: odom
+
+    use_stamped_vel: false
+    cmd_vel_timeout: 0.5
+    publish_rate: 50.0
+    enable_odom_tf: true
+    publish_odom: true
