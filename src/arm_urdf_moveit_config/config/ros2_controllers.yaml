@@ -14,8 +14,8 @@ controller_manager:
     joint_state_broadcaster:
       type: joint_state_broadcaster/JointStateBroadcaster
 
-    diff_drive_controller:
-      type: diff_drive_controller/DiffDriveController
+    # mecanum_controller: 
+    #   type: mecanum_drive_controller/MecanumDriveController
 
 arm_controller:
   ros__parameters:
@@ -45,19 +45,21 @@ hand_controller:
       - position
       - velocity
 
-diff_drive_controller:
-  ros__parameters:
-    left_wheel_names: ["Wheel_motor_1_Revolute_107","Wheel_motor_4_Revolute_106"]
-    right_wheel_names: ["Wheel_motor_2_Revolute_105","Wheel_motor_3_Revolute_108"]
+# mecanum_controller: 
+  # ros__parameters: 
+  #   front_left_wheel_command_joint_name: Wheel_motor_2_Revolute_105 
+  #   rear_left_wheel_command_joint_name: Wheel_motor_3_Revolute_108 
+  #   front_right_wheel_command_joint_name: Wheel_motor_1_Revolute_107 
+  #   rear_right_wheel_command_joint_name: Wheel_motor_4_Revolute_106
 
-    wheel_separation: 0.4     # distance between left and right wheels
-    wheel_radius: 0.075        # wheel radius
+  #   kinematics:
+  #     base_frame_offset: { x: 1.0, y: 2.0, theta: 3.0 }
+  #     wheels_radius: 0.75
 
-    base_frame_id: base_footprint
-    odom_frame_id: odom
 
-    use_stamped_vel: false
-    cmd_vel_timeout: 0.5
-    publish_rate: 50.0
-    enable_odom_tf: true
-    publish_odom: true
+  #   base_frame_id: base_footprint 
+  #   odom_frame_id: odom 
+  #   cmd_vel_timeout: 0.5 
+  #   use_stamped_vel: false
+  #   publish_rate: 50.0 
+  #   enable_odom_tf: true

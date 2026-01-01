@@ -123,7 +123,6 @@ def generate_launch_description():
         "arm_controller",
         "hand_controller",
         "joint_state_broadcaster",
-        "diff_drive_controller",
     ]:
         load_controllers += [
             ExecuteProcess(
@@ -138,9 +137,10 @@ def generate_launch_description():
             rviz_node,
             # static_tf,
             robot_state_publisher,
+            ros2_control_node,
             run_move_group_node,
-            spawn_the_robot,
-            gazebo,
+            # spawn_the_robot,
+            # gazebo,
         ]
         + load_controllers
     )

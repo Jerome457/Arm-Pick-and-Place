@@ -1113,33 +1113,29 @@
         <axis xyz="0.0 -1.0 -3.1554436208840472e-30" />
         <limit lower="-3.14159" upper="3.14159" effort="1.0" velocity="0.25" />
     </joint>
-    <joint name="Wheel_motor_2_Revolute_105" type="continuous">
+    <joint name="Wheel_motor_2_Revolute_105" type="fixed">
         <origin xyz="-1.7763568394002505e-17 0.0 0.026999999999999993" rpy="-1.5707963267948966 1.5707963267948948 0" />
         <parent link="Wheel_motor_2" />
         <child link="Component53" />
         <axis xyz="1.0 2.635647389719074e-60 2.139937261679685e-14" />
-        <dynamics damping="1.0" friction="1.0"/> 
     </joint>
-    <joint name="Wheel_motor_4_Revolute_106" type="continuous">
+    <joint name="Wheel_motor_4_Revolute_106" type="fixed">
         <origin xyz="-1.7763568394002505e-17 -3.552713678800501e-17 0.026999999999999993" rpy="1.5707963267948966 -1.570796326794895 0" />
         <parent link="Wheel_motor_4" />
         <child link="Component54" />
         <axis xyz="-1.0 8.586479331114432e-60 -2.1399372616796854e-14" />
-        <dynamics damping="1.0" friction="1.0"/> 
     </joint>
-    <joint name="Wheel_motor_1_Revolute_107" type="continuous">
+    <joint name="Wheel_motor_1_Revolute_107" type="fixed">
         <origin xyz="-0.0020000000000000287 0.0056568599999999945 0.026999999999999993" rpy="1.5707963267948966 -1.570796326794895 0" />
         <parent link="Wheel_motor_1" />
         <child link="Component55" />
         <axis xyz="-1.0 -7.16708135826507e-61 -2.139937261679685e-14" />
-        <dynamics damping="1.0" friction="1.0"/> 
     </joint>
-    <joint name="Wheel_motor_3_Revolute_108" type="continuous">
+    <joint name="Wheel_motor_3_Revolute_108" type="fixed">
         <origin xyz="-1.7763568394002505e-17 0.005999999999999961 0.026999999999999993" rpy="-1.5707963267948966 1.5707963267948948 0" />
         <parent link="Wheel_motor_3" />
         <child link="Component56" />
         <axis xyz="1.0 -8.619515182870853e-61 2.139937261679685e-14" />
-        <dynamics damping="1.0" friction="1.0"/> 
     </joint>
     <joint name="base_final-v3_Rigid_114" type="fixed">
         <origin xyz="0.2 0.1886178247251832 0.6715026876261198" rpy="-3.672062653947704e-14 -0.0 0.0" />
