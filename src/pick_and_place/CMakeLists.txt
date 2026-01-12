@@ -19,6 +19,7 @@ find_package(shape_msgs REQUIRED)  # Recent addition
 find_package(sensor_msgs REQUIRED) # Very Recent Addition
 find_package(moveit_task_constructor_core REQUIRED)
 find_package(moveit_ros_planning REQUIRED)
+find_package(arm_message REQUIRED)
 
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)
@@ -41,7 +42,7 @@ ament_target_dependencies(pick_and_place
 
 add_executable(mtc_tutorial src/mtc.cpp)
 
-ament_target_dependencies(mtc_tutorial moveit_task_constructor_core rclcpp)
+ament_target_dependencies(mtc_tutorial moveit_task_constructor_core rclcpp arm_message)
 target_include_directories(mtc_tutorial PUBLIC
 $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
 $<INSTALL_INTERFACE:include>)

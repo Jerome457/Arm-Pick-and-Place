@@ -19,6 +19,7 @@
 #else
 #include <tf2_eigen/tf2_eigen.h>
 #endif
+#include <arm_message/srv/pick.hpp>
 
 static const rclcpp::Logger LOGGER = rclcpp::get_logger("mtc_tutorial");
 namespace mtc = moveit::task_constructor;
@@ -31,15 +32,22 @@ public:
 
   rclcpp::node_interfaces::NodeBaseInterface::SharedPtr getNodeBaseInterface();
 
+private:
+  void handlePick(
+    const std::shared_ptr<arm_message::srv::Pick::Request> request,
+    std::shared_ptr<arm_message::srv::Pick::Response> response);
+
+  void setupPlanningScene(
+    const std::string& object_id,
+    const geometry_msgs::msg::PoseStamped& pose);
+
   void doTask();
 
-  void setupPlanningScene();
-
-private:
-  // Compose an MTC task from a series of stages.
   mtc::Task createTask();
   mtc::Task task_;
   rclcpp::Node::SharedPtr node_;
+
+  rclcpp::Service<arm_message::srv::Pick>::SharedPtr pick_service_;
 };
 
 rclcpp::node_interfaces::NodeBaseInterface::SharedPtr MTCTaskNode::getNodeBaseInterface()
@@ -48,16 +56,30 @@ rclcpp::node_interfaces::NodeBaseInterface::SharedPtr MTCTaskNode::getNodeBaseIn
 }
 
 MTCTaskNode::MTCTaskNode(const rclcpp::NodeOptions& options)
-  : node_{ std::make_shared<rclcpp::Node>("mtc_node", options) }
+  : node_{ std::make_shared<rclcpp::Node>("pick_and_place_server", options) }
 {
+  pick_service_ = node_->create_service<arm_message::srv::Pick>(
+    "Pick_and_Place",
+    std::bind(
+      &MTCTaskNode::handlePick,
+      this,
+      std::placeholders::_1,
+      std::placeholders::_2));
+
+  RCLCPP_INFO(node_->get_logger(), "Pick_and_Place service ready");
 }
 
-void MTCTaskNode::setupPlanningScene()
+
+void MTCTaskNode::setupPlanningScene(
+  const std::string& object_id,
+  const geometry_msgs::msg::PoseStamped& pose)
+
 {
   // ----- Add Mesh Object -----
   moveit_msgs::msg::CollisionObject mesh_obj;
-  mesh_obj.id = "object";
-  mesh_obj.header.frame_id = "world";
+  mesh_obj.id = object_id;
+  mesh_obj.header.frame_id = pose.header.frame_id;
+
 
   // Load the mesh resource (from your package)
   std::string mesh_path = "package://arm_urdf/rcup_objects/M30-1.stl";
@@ -77,9 +99,7 @@ void MTCTaskNode::setupPlanningScene()
 
   // Set mesh pose (control position + orientation)
   geometry_msgs::msg::Pose mesh_pose;
-  mesh_pose.position.x = 0.0;
-  mesh_pose.position.y = -0.6;
-  mesh_pose.position.z = 0.02;
+  mesh_pose = pose.pose;
 
   // Example: Rotate 90° about Y-axis, 45° about Z-axis
   tf2::Quaternion q;
@@ -143,6 +163,21 @@ void MTCTaskNode::setupPlanningScene()
   }
 
 }
+
+void MTCTaskNode::handlePick(
+  const std::shared_ptr<arm_message::srv::Pick::Request> request,
+  std::shared_ptr<arm_message::srv::Pick::Response> response)
+{
+  RCLCPP_INFO(node_->get_logger(), "Pick request received for object: %s",
+              request->object_id.c_str());
+
+  setupPlanningScene(request->object_id, request->pose);
+
+  doTask();
+
+  response->success = (e == 0);
+}
+
 
 void MTCTaskNode::doTask()
 {
@@ -214,22 +249,6 @@ mtc::Task MTCTaskNode::createTask()
   cartesian_planner->setMaxVelocityScalingFactor(0.5);
   cartesian_planner->setMaxAccelerationScalingFactor(0.5);
   cartesian_planner->setStepSize(.05);
-
-
-  // auto pilz_ptp_planner = std::make_shared<mtc::solvers::PipelinePlanner>(node_, "pilz_industrial_motion_planner");
-  // pilz_ptp_planner->setPlannerId("PTP");
-  // pilz_ptp_planner->setProperty("max_velocity_scaling_factor", 0.5);
-  // pilz_ptp_planner->setProperty("max_acceleration_scaling_factor", 0.5);
-
-  // auto pilz_lin_planner = std::make_shared<mtc::solvers::PipelinePlanner>(node_, "pilz_industrial_motion_planner");
-  // pilz_lin_planner->setPlannerId("LIN");
-  // pilz_lin_planner->setProperty("max_velocity_scaling_factor", 0.2);
-  // pilz_lin_planner->setProperty("max_acceleration_scaling_factor", 0.2);
-
-  // auto pilz_circ_planner = std::make_shared<mtc::solvers::PipelinePlanner>(node_, "pilz_industrial_motion_planner");
-  // pilz_circ_planner->setPlannerId("CIRC");
-  // pilz_circ_planner->setProperty("max_velocity_scaling_factor", 0.3);
-  // pilz_circ_planner->setProperty("max_acceleration_scaling_factor", 0.3);
 
   auto stage_open_hand =
       std::make_unique<mtc::stages::MoveTo>("open hand", interpolation_planner);
@@ -396,19 +415,11 @@ int main(int argc, char** argv)
   options.automatically_declare_parameters_from_overrides(true);
 
   auto mtc_task_node = std::make_shared<MTCTaskNode>(options);
+
   rclcpp::executors::MultiThreadedExecutor executor;
+  executor.add_node(mtc_task_node->getNodeBaseInterface());
+  executor.spin();
 
-  auto spin_thread = std::make_unique<std::thread>([&executor, &mtc_task_node]() {
-    executor.add_node(mtc_task_node->getNodeBaseInterface());
-    executor.spin();
-    executor.remove_node(mtc_task_node->getNodeBaseInterface());
-  });
-
-  mtc_task_node->setupPlanningScene();
-  // while(e!=0)
-  mtc_task_node->doTask();
-
-  spin_thread->join();
   rclcpp::shutdown();
   return 0;
 }
